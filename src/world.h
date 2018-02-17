@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+#include "ball.h"
+#include "wall.h"
+
 typedef enum {
     WORLD_IN_START_MENU,
     WORLD_GAME_START,
@@ -12,11 +15,25 @@ typedef enum {
     WORLD_QUIT
 } game_states_t ;
 
+typedef enum {
+    BALL,
+    WALL
+} world_object_kind_t;
+
+typedef struct {
+    world_object_kind_t kind;
+    union {
+        ball_t* ball;
+        wall_t* wall;
+    };
+} world_object_t;
+
 typedef struct {
     game_states_t state;
     unsigned int score;
-    unsigned int objects_size;
-    void* objects[];
+    unsigned int world_objects_size;
+    unsigned int world_objects_max_size;
+    world_object_t* world_objects[];
 } world_t;
 
 world_t* world_init();
