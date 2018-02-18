@@ -1,5 +1,7 @@
 #include <SDL2/SDL.h>
 
+#include "world.h"
+#include "graphics.h"
 #include "render.h"
 #include "game.h"
 
@@ -15,4 +17,7 @@ void run_loop(world_t* world, graphics_t* graphics)
 
         render_world(world, graphics);
     }
+
+    world_free(world);
+    graphics_free(graphics);
 }
