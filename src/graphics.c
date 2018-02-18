@@ -43,3 +43,10 @@ graphics_t* graphics_init()
 
     return graphics;
 }
+
+void graphics_free(graphics_t* graphics) {
+    SDL_GL_DeleteContext(graphics->context);
+    SDL_DestroyWindow(graphics->window);
+    SDL_Quit();
+    free(graphics);
+}

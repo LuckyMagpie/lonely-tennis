@@ -11,5 +11,6 @@ typedef struct {
 
 void set_opengl_attrs();
 graphics_t* graphics_init();
+void graphics_free(graphics_t*);
 
 #endif /* ifndef GRAPHICS_H */
