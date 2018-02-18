@@ -37,5 +37,6 @@ typedef struct {
 } world_t;
 
 world_t* world_init();
+void world_free(world_t* world);
 bool simulate(world_t* world);
 #endif /* ifndef WORLD_H */

@@ -17,3 +17,11 @@ world_t* world_init()
     return world;
 }
 
+void world_free(world_t* world) {
+    for (world_object_t** p = world->world_objects; p < world->world_objects + world->world_objects_size; p++) {
+        free(*p);
+    }
+
+    free(world);
+}
+
