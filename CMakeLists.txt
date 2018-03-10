@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 3.0)
 project ("LonelyTennis" C)
-enable_testing()
+
+include (CTest)
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 
 

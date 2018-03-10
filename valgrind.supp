@@ -1,0 +1,7 @@
+{
+    <libcheck>
+    Memcheck:Leak
+    ...
+    obj:/usr/lib/libcheck*
+}
+

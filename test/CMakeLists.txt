@@ -18,8 +18,4 @@ foreach(T ${TESTS})
     target_link_libraries(${T} game ${CHECK_LIBRARIES})
 
     add_test(${T} ${T})
-    add_test(${T}_valgrind valgrind
-        --error-exitcode=0 --read-var-info=yes
-        --leak-check=full --show-leak-kinds=all
-        ./${T})
 endforeach()
