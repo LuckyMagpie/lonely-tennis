@@ -2,6 +2,7 @@ add_library(utils "")
 target_sources(utils
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/vector.c
+        ${CMAKE_CURRENT_LIST_DIR}/mesh.c
 )
 target_include_directories(utils PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_options(utils
