@@ -58,6 +58,30 @@ START_TEST(test_vector_get)
 }
 END_TEST
 
+void mul2(void* obj, ...)
+{
+    *(int*)obj = *(int*)obj * 2;
+}
+
+START_TEST(test_vector_foreach)
+{
+    vector_t* vector = vector_init();
+    int test_value = 1;
+    int test_value2 = 2;
+    int test_value3 = 3;
+
+    vector_push_back(vector, &test_value);
+    vector_push_back(vector, &test_value2);
+    vector_push_back(vector, &test_value3);
+    vector_foreach(vector, &mul2);
+
+    ck_assert_msg(*(int*)vector_get(vector, 0) == 2, "First value should be double of 1 got %d", *(int*)vector_get(vector, 0));
+    ck_assert_msg(*(int*)vector_get(vector, 1) == 4, "Second value should be double of 2 got %d", *(int*)vector_get(vector, 1));
+    ck_assert_msg(*(int*)vector_get(vector, 2) == 6, "Third value should be double of 3 got %d", *(int*)vector_get(vector, 2));
+    vector_free(vector);
+}
+END_TEST
+
 Suite* vector_suit()
 {
     Suite* suite = suite_create("vector");
@@ -72,9 +96,13 @@ Suite* vector_suit()
     TCase* tc3 = tcase_create("test_vector_get");
     tcase_add_test(tc3, test_vector_get);
 
+    TCase* tc4 = tcase_create("test_vector_foreach");
+    tcase_add_test(tc4, test_vector_foreach);
+
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
     suite_add_tcase(suite, tc3);
+    suite_add_tcase(suite, tc4);
     return suite;
 }
 
