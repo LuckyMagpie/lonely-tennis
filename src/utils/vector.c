@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <stdarg.h>
+
 #include "vector.h"
 
 vector_t* vector_init()
@@ -11,7 +13,8 @@ vector_t* vector_init()
     return vector;
 }
 
-static inline void vector_resize(vector_t* vector, unsigned int new_size) {
+static inline void vector_resize(vector_t* vector, unsigned int new_size)
+{
     vector->items = realloc(vector->items, sizeof(void*) * new_size);
     vector->max_size = new_size;
 }
@@ -30,6 +33,23 @@ void vector_push_back(vector_t* vector, void* item)
 void* vector_get(vector_t* vector, unsigned int index)
 {
     return (*vector->items)[index];
+}
+
+void vector_foreach(vector_t* vector, void (*fp) (void*, ...), ...)
+{
+    va_list ap;
+    va_start(ap, fp);
+
+    for (void** p = *(vector->items); p < *(vector->items) + vector->size; p++) {
+        fp(*p, ap);
+    }
+
+    va_end(ap);
+}
+
+void vector_generic_item_free(void* obj, ...)
+{
+    free(obj);
 }
 
 void vector_free(vector_t* vector) {
