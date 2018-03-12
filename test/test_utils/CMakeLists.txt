@@ -2,8 +2,8 @@ find_package(Check REQUIRED)
 
 set(TESTS
     "test_vector"
+    "test_mesh"
 )
-
 
 foreach(T ${TESTS})
     add_executable(${T} ${T}.c)
@@ -17,3 +17,5 @@ foreach(T ${TESTS})
 
     add_test(${T} ${T})
 endforeach()
+
+file(COPY mock_assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
