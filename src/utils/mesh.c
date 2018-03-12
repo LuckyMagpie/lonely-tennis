@@ -101,5 +101,9 @@ bool load_obj(const char* path, vector_t* uvs, vector_t* normals, vector_t* vert
     vector_foreach(vertex_indices, &vector_generic_item_free);
     vector_free(vertex_indices);
 
+    vector_trim(vertices);
+    vector_trim(uvs);
+    vector_trim(normals);
+
     return true;
 }
