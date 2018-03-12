@@ -14,6 +14,7 @@ static inline void vector_resize(vector_t* vector, unsigned int new_size);
 void vector_push_back(vector_t* vector, void* item);
 void* vector_get(vector_t* vector, unsigned int index);
 void vector_foreach(vector_t* vector, void (*fp) (void*, ...), ...);
+void vector_trim(vector_t* vector);
 void vector_generic_item_free(void* obj, ...);
 void vector_free(vector_t* vector);
 

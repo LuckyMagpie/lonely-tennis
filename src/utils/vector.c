@@ -47,6 +47,11 @@ void vector_foreach(vector_t* vector, void (*fp) (void*, ...), ...)
     va_end(ap);
 }
 
+void vector_trim(vector_t* vector)
+{
+    vector_resize(vector, vector->size);
+}
+
 void vector_generic_item_free(void* obj, ...)
 {
     free(obj);
