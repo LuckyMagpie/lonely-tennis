@@ -82,6 +82,26 @@ START_TEST(test_vector_foreach)
 }
 END_TEST
 
+START_TEST(test_vector_trim)
+{
+    vector_t* vector = vector_init();
+    int test_value = 1;
+    int test_value2 = 2;
+    int test_value3 = 3;
+
+    vector_push_back(vector, &test_value);
+    vector_push_back(vector, &test_value2);
+    vector_push_back(vector, &test_value3);
+    vector_trim(vector);
+
+    ck_assert_msg(vector->max_size == vector->size, "Size should be the same as max size");
+    ck_assert_msg(*(int*)vector_get(vector, 0) == 1, "First value is lost, got %d", *(int*)vector_get(vector, 0));
+    ck_assert_msg(*(int*)vector_get(vector, 1) == 2, "Second value is lost, got %d", *(int*)vector_get(vector, 1));
+    ck_assert_msg(*(int*)vector_get(vector, 2) == 3, "Third value is lost, got %d", *(int*)vector_get(vector, 2));
+    vector_free(vector);
+}
+END_TEST
+
 Suite* vector_suit()
 {
     Suite* suite = suite_create("vector");
@@ -99,10 +119,14 @@ Suite* vector_suit()
     TCase* tc4 = tcase_create("test_vector_foreach");
     tcase_add_test(tc4, test_vector_foreach);
 
+    TCase* tc5 = tcase_create("test_vector_trim");
+    tcase_add_test(tc5, test_vector_trim);
+
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
     suite_add_tcase(suite, tc3);
     suite_add_tcase(suite, tc4);
+    suite_add_tcase(suite, tc5);
     return suite;
 }
 
