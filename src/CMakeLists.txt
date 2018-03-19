@@ -13,9 +13,9 @@ target_include_directories(game PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/utils)
 target_compile_options(game
     PUBLIC
-        $<$<CONFIG:RELEASE>:-Wall -Werror -Wpedantic -std=c11 -O3>
-        $<$<CONFIG:DEBUG>:-Wall -Werror -Wpedantic -std=c11 -g>)
-target_link_libraries(game utils GL GLEW SDL2)
+        $<$<CONFIG:RELEASE>:-Wall -Wpedantic -Wextra -Werror -std=c11 -O3>
+        $<$<CONFIG:DEBUG>:-Wall -Wpedantic -Wextra -std=c11>)
+target_link_libraries(game utils)
 
 add_executable(LonelyTennis main.c)
 target_link_libraries(LonelyTennis game)
