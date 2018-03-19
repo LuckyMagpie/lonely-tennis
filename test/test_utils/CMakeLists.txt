@@ -16,7 +16,7 @@ foreach(T ${TESTS})
             ${CHECK_INCLUDE_DIRS}
             ${PROJECT_SOURCE_DIR}/src/utils
     )
-    target_link_libraries(${T} utils ${CHECK_LIBRARIES})
+    target_link_libraries(${T} $<TARGET_FILE:utils> ${CHECK_LIBRARIES})
 
     add_test(${T} ${T})
 endforeach()
