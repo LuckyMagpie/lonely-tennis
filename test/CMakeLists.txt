@@ -9,6 +9,9 @@ set(TESTS
 
 foreach(T ${TESTS})
     add_executable(${T} ${T}.c)
+    target_compile_options(${T}
+        PUBLIC
+            $<$<CONFIG:DEBUG>:-Wall -Wpedantic -Wextra -std=c11>)
 
     target_include_directories(${T}
         PUBLIC
