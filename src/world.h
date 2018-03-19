@@ -3,8 +3,12 @@
 
 #include <stdbool.h>
 
-#include "ball.h"
-#include "wall.h"
+#define GL3_PROTOTYPES 1
+#include <GL/glew.h>
+#include <cglm/cglm.h>
+
+#include "utils/vector.h"
+#include "graphics.h"
 
 typedef enum {
     WORLD_IN_START_MENU,
@@ -15,17 +19,14 @@ typedef enum {
     WORLD_QUIT
 } game_states_t ;
 
-typedef enum {
-    BALL,
-    WALL
-} world_object_kind_t;
-
-typedef struct {
-    world_object_kind_t kind;
-    union {
-        ball_t* ball;
-        wall_t* wall;
-    };
+typedef struct world_object_t {
+    mat4 model;
+    vector_t* uvs;
+    vector_t* normals;
+    vector_t* vertices;
+    void (*do_render) (struct world_object_t*, graphics_t*);
+    GLuint vao;
+    GLuint vbos[3];
 } world_object_t;
 
 typedef struct {
