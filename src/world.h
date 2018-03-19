@@ -29,15 +29,14 @@ typedef struct world_object_t {
     GLuint vbos[3];
 } world_object_t;
 
-typedef struct {
+typedef struct world_t {
     game_states_t state;
     unsigned int score;
-    unsigned int world_objects_size;
-    unsigned int world_objects_max_size;
-    world_object_t* world_objects[];
+    vector_t* world_objects;
 } world_t;
 
-world_t* world_init();
+world_t* world_init(void);
 void world_free(world_t* world);
 bool simulate(world_t* world);
+
 #endif /* ifndef WORLD_H */
