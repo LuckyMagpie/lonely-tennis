@@ -3,6 +3,7 @@ find_package(Check REQUIRED)
 set(TESTS
     "test_vector"
     "test_mesh"
+    "test_files"
 )
 
 foreach(T ${TESTS})
