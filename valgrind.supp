@@ -1,7 +1,8 @@
 {
     <libcheck>
     Memcheck:Leak
+    match-leak-kinds: reachable
     ...
-    obj:/usr/lib/libcheck*
+    obj:/usr/lib/libcheck.so*
 }
 
