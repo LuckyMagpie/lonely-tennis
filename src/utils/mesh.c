@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -7,12 +8,12 @@
 #include "vector.h"
 #include "mesh.h"
 
-bool load_obj(const char* path, vector_t* uvs, vector_t* normals, vector_t* vertices)
+bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vector_t** uvs, dumb_opengl_vector_t** normals)
 {
-   FILE* file = fopen(path, "r");
+   FILE* file = fopen(path, "rb");
 
     if (!file) {
-       fprintf(stderr, "File not found") ;
+       fprintf(stderr, "%s:File not found %s", __func__, path);
        return false;
     }
 
@@ -65,6 +66,10 @@ bool load_obj(const char* path, vector_t* uvs, vector_t* normals, vector_t* vert
 
     fclose(file);
 
+    *vertices = dumb_opengl_vector_init(vertex_indices->size * 3);
+    *uvs = dumb_opengl_vector_init(uv_indices->size * 2);
+    *normals  = dumb_opengl_vector_init(normal_indices->size * 3);
+
     for (unsigned int i = 0; i < vertex_indices->size; i++) {
         unsigned int vertex_index = *(unsigned int*)vector_get(vertex_indices, i);
         unsigned int uv_index = *(unsigned int*)vector_get(uv_indices, i);
@@ -74,13 +79,16 @@ bool load_obj(const char* path, vector_t* uvs, vector_t* normals, vector_t* vert
         float* uv = vector_get(tmp_uvs, uv_index-1);
         float* normal = vector_get(tmp_normals, normal_index-1);
 
-        float* copy_vertex = malloc(sizeof(float) * 3);
-        float* copy_uv = malloc(sizeof(float) * 2);
-        float* copy_normal = malloc(sizeof(float) * 3);
+        (*vertices)->items[3*i + 0] = vertex[0];
+        (*vertices)->items[3*i + 1] = vertex[1];
+        (*vertices)->items[3*i + 2] = vertex[2];
 
-        vector_push_back(vertices, memcpy(copy_vertex, vertex, sizeof(float) * 3));
-        vector_push_back(uvs, memcpy(copy_uv, uv, sizeof(float) * 2));
-        vector_push_back(normals, memcpy(copy_normal, normal, sizeof(float) * 3));
+        (*uvs)->items[2*i + 0] = uv[0];
+        (*uvs)->items[2*i + 1] = uv[1];
+
+        (*normals)->items[3*i + 0] = normal[0];
+        (*normals)->items[3*i + 1] = normal[1];
+        (*normals)->items[3*i + 2] = normal[2];
     }
 
     vector_foreach(tmp_uvs, &vector_generic_item_free);
@@ -100,10 +108,6 @@ bool load_obj(const char* path, vector_t* uvs, vector_t* normals, vector_t* vert
 
     vector_foreach(vertex_indices, &vector_generic_item_free);
     vector_free(vertex_indices);
-
-    vector_trim(vertices);
-    vector_trim(uvs);
-    vector_trim(normals);
 
     return true;
 }

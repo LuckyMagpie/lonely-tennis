@@ -7,6 +7,6 @@
 
 #include "vector.h"
 
-bool load_obj(const char* path, vector_t* uv, vector_t* normals, vector_t* vertices);
+bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vector_t** uvs, dumb_opengl_vector_t** normals);
 
 #endif /* ifndef MESH_H */
