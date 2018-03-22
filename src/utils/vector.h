@@ -1,7 +1,15 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <stdarg.h>
+#include <string.h>
+
 #define DEFAULT_MAX_SIZE 10
+
+typedef struct dumb_opengl_vector_t {
+    unsigned int size;
+    float items[];
+} dumb_opengl_vector_t;
 
 typedef struct vector_t {
     unsigned int size;
@@ -10,6 +18,7 @@ typedef struct vector_t {
 } vector_t;
 
 vector_t* vector_init(void);
+dumb_opengl_vector_t* dumb_opengl_vector_init(unsigned int size);
 static inline void vector_resize(vector_t* vector, unsigned int new_size);
 void vector_push_back(vector_t* vector, void* item);
 void* vector_get(vector_t* vector, unsigned int index);

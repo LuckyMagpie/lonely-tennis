@@ -13,6 +13,14 @@ vector_t* vector_init()
     return vector;
 }
 
+dumb_opengl_vector_t* dumb_opengl_vector_init(unsigned int size)
+{
+    dumb_opengl_vector_t* vector = malloc(sizeof(dumb_opengl_vector_t) + sizeof(float) * size);
+    vector->size = size;
+
+    return vector;
+}
+
 static inline void vector_resize(vector_t* vector, unsigned int new_size)
 {
     vector->items = realloc(vector->items, sizeof(void*) * new_size);
