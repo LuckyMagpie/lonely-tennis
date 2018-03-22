@@ -35,7 +35,7 @@ void* vector_get(vector_t* vector, unsigned int index)
     return (*vector->items)[index];
 }
 
-void vector_foreach(vector_t* vector, void (*fp) (void*, ...), ...)
+void vector_foreach(vector_t* vector, void (*fp) (void*, va_list ap), ...)
 {
     va_list ap;
     va_start(ap, fp);
@@ -52,8 +52,9 @@ void vector_trim(vector_t* vector)
     vector_resize(vector, vector->size);
 }
 
-void vector_generic_item_free(void* obj, ...)
+void vector_generic_item_free(void* obj, va_list _)
 {
+    (void)_;
     free(obj);
 }
 

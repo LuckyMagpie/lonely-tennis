@@ -1,4 +1,5 @@
 #include <check.h>
+#include <stdarg.h>
 
 #include "vector.h"
 
@@ -58,8 +59,9 @@ START_TEST(test_vector_get)
 }
 END_TEST
 
-void mul2(void* obj, ...)
+void mul2(void* obj, va_list _)
 {
+    (void)_;
     *(int*)obj = *(int*)obj * 2;
 }
 
