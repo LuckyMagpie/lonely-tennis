@@ -21,9 +21,9 @@ typedef enum {
 
 typedef struct world_object_t {
     mat4 model;
-    vector_t* uvs;
-    vector_t* normals;
-    vector_t* vertices;
+    dumb_opengl_vector_t* vertices;
+    dumb_opengl_vector_t* uvs;
+    dumb_opengl_vector_t* normals;
     void (*do_render) (struct world_object_t*, graphics_t*);
     GLuint vao;
     GLuint vbos[3];
@@ -37,6 +37,7 @@ typedef struct world_t {
 
 world_t* world_init(void);
 void world_free(world_t* world);
+void world_object_free(void* object, va_list _);
 bool simulate(world_t* world);
 
 #endif /* ifndef WORLD_H */
