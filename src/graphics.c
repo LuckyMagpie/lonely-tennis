@@ -4,6 +4,7 @@
 #define GL3_PROTOTYPES 1
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
+#include <cglm/cglm.h>
 
 #include "graphics.h"
 
@@ -38,7 +39,7 @@ graphics_t* graphics_init()
     set_sdl_attrs();
 
     SDL_Window* window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_OPENGL);
+        SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
 
     if (!window) {
        fprintf(stderr, "%s:Unable to create window: %s\n", __func__, SDL_GetError());
@@ -53,10 +54,20 @@ graphics_t* graphics_init()
     graphics->window = window;
     graphics->context = context;
 
+    vec3 eye = {0.0f, 0.0f, 5.0f};
+    vec3 center = {0.0f, 0.0f, 0.0f};
+    vec3 up = {0.0f, 1.0f, 0.0f};
+    glm_lookat(eye, center, up, graphics->view);
+
+    glm_perspective(glm_rad(90.0f), 4.0f/3.0f, 0.1f, 100.0f, graphics->projection);
+
+    glm_mat4_mul(graphics->projection, graphics->view, graphics->vp);
+
     return graphics;
 }
 
-void graphics_free(graphics_t* graphics) {
+void graphics_free(graphics_t* graphics)
+{
     SDL_GL_DeleteContext(graphics->context);
     SDL_DestroyWindow(graphics->window);
     SDL_Quit();
