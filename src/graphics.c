@@ -128,6 +128,9 @@ graphics_t* graphics_init()
 
     glm_mat4_mul(graphics->projection, graphics->view, graphics->vp);
 
+    graphics->program_id = create_shader_program("assets/vertex_shader.glsl", "assets/fragment_shader.glsl");
+    graphics->program_mvp_id = glGetUniformLocation(graphics->program_id, "MVP");
+
     return graphics;
 }
 
@@ -135,6 +138,7 @@ void graphics_free(graphics_t* graphics)
 {
     SDL_GL_DeleteContext(graphics->context);
     SDL_DestroyWindow(graphics->window);
+    glDeleteProgram(graphics->program_id);
     SDL_Quit();
     free(graphics);
 }

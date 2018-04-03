@@ -14,6 +14,8 @@ typedef struct graphics_t {
     mat4 vp;
     SDL_Window* window;
     SDL_GLContext* context;
+    GLuint program_id;
+    GLuint program_mvp_id;
 } graphics_t;
 
 void set_opengl_attrs(void);
