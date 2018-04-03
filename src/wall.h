@@ -1,9 +1,10 @@
 #ifndef WALL_H
 #define WALL_H
 
-typedef struct {
-    float points[4][3];
-    float force;
-} wall_t;
+#include <cglm/cglm.h>
+
+#include "world.h"
+
+world_object_t* wall_init(void);
 
 #endif /* ifndef WALL_H */
