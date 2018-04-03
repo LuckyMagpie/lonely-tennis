@@ -19,3 +19,5 @@ target_link_libraries(game utils)
 
 add_executable(LonelyTennis main.c)
 target_link_libraries(LonelyTennis $<TARGET_FILE:game> m GL GLEW SDL2)
+
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
