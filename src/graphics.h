@@ -9,8 +9,9 @@ typedef struct {
     SDL_GLContext* context;
 } graphics_t;
 
-void set_opengl_attrs();
 graphics_t* graphics_init();
 void graphics_free(graphics_t*);
+void set_opengl_attrs(void);
+void set_sdl_attrs(void);
 
 #endif /* ifndef GRAPHICS_H */

@@ -1,21 +1,29 @@
-#define GL3_PROTOTYPES 1
-#include <GL/glew.h>
-#include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdio.h>
 
+#define GL3_PROTOTYPES 1
+#include <GL/glew.h>
+#include <SDL2/SDL.h>
+
 #include "graphics.h"
 
-void set_opengl_attrs()
+void set_sdl_attrs()
 {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+}
+
+void set_opengl_attrs()
+{
+    SDL_GL_SetSwapInterval(1);
+    glClearColor(0.9f, 0.9f, 0.9f, 0.0f);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-    SDL_GL_SetSwapInterval(1);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_NORMALIZE);
     glewExperimental = GL_TRUE;
     glewInit();
 }
@@ -23,19 +31,23 @@ void set_opengl_attrs()
 graphics_t* graphics_init()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-       fprintf(stderr, "Unable to initialize SDL: %s", SDL_GetError()) ;
+       fprintf(stderr, "%s:Unable to initialize SDL: %s\n", __func__, SDL_GetError());
        return NULL;
     }
+
+    set_sdl_attrs();
 
     SDL_Window* window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_OPENGL);
 
     if (!window) {
-       fprintf(stderr, "Unable to create window: %s", SDL_GetError()) ;
+       fprintf(stderr, "%s:Unable to create window: %s\n", __func__, SDL_GetError());
        return NULL;
     }
 
     SDL_GLContext* context = SDL_GL_CreateContext(window);
+
+    set_opengl_attrs();
 
     graphics_t* graphics = malloc(sizeof(graphics_t));
     graphics->window = window;
