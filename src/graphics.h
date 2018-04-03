@@ -18,6 +18,8 @@ typedef struct graphics_t {
 
 void set_opengl_attrs(void);
 void set_sdl_attrs(void);
+bool compile_shader(GLuint shader_id, const char* shader_code);
+GLuint create_shader_program(const char* vertex_filepath, const char* fragment_filepath);
 graphics_t* graphics_init(void);
 void graphics_free(graphics_t* graphics);
 

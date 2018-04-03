@@ -7,6 +7,7 @@
 #include <cglm/cglm.h>
 
 #include "graphics.h"
+#include "utils/files.h"
 
 void set_sdl_attrs()
 {
@@ -27,6 +28,70 @@ void set_opengl_attrs()
     glEnable(GL_NORMALIZE);
     glewExperimental = GL_TRUE;
     glewInit();
+}
+
+bool compile_shader(GLuint shader_id, const char* shader_code)
+{
+    GLint compile_result = GL_FALSE;
+
+    glShaderSource(shader_id, 1, &shader_code, NULL);
+    glCompileShader(shader_id);
+    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &compile_result);
+
+    if (compile_result == GL_FALSE) {
+        int log_len;
+        glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &log_len);
+        char error_log[log_len+1];
+        glGetShaderInfoLog(shader_id, log_len, NULL, error_log);
+        fprintf(stderr, "%s:Unable to compile shader: %s\n", __func__, error_log);
+    }
+
+    return compile_result;
+}
+
+GLuint create_shader_program(const char* vertex_filepath, const char* fragment_filepath)
+{
+    GLuint vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
+    GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
+
+    char* vertex_shader_code = file_to_str(vertex_filepath);
+    char* fragment_shader_code = file_to_str(fragment_filepath);
+
+    if (vertex_shader_code[0] == '\0' || fragment_shader_code[0] == '\0') {
+        //TODO
+    }
+
+    bool vertex_shader_status = compile_shader(vertex_shader_id, vertex_shader_code);
+    bool fragment_shader_status = compile_shader(fragment_shader_id, fragment_shader_code);
+
+    if (!vertex_shader_status || ! fragment_shader_status) {
+        //TODO
+    }
+
+    GLuint program_id = glCreateProgram();
+    glAttachShader(program_id, vertex_shader_id);
+    glAttachShader(program_id,fragment_shader_id);
+    glLinkProgram(program_id);
+
+    GLint link_result = GL_FALSE;
+    glGetProgramiv(program_id, GL_LINK_STATUS, &link_result);
+    if (link_result == GL_FALSE) {
+        int log_len;
+        glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &log_len);
+        char error_log[log_len+1];
+        glGetProgramInfoLog(program_id, log_len, NULL, error_log);
+        fprintf(stderr, "%s:Unable to link program: %s\n", __func__, error_log);
+    }
+
+    glDetachShader(program_id, vertex_shader_id);
+    glDetachShader(program_id, fragment_shader_id);
+
+    glDeleteShader(vertex_shader_id);
+    glDeleteShader(fragment_shader_id);
+    free(vertex_shader_code);
+    free(fragment_shader_code);
+
+    return program_id;
 }
 
 graphics_t* graphics_init()
