@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <signal.h>
 
 #define GL3_PROTOTYPES 1
 #include <GL/glew.h>
@@ -58,14 +59,14 @@ GLuint create_shader_program(const char* vertex_filepath, const char* fragment_f
     char* fragment_shader_code = file_to_str(fragment_filepath);
 
     if (vertex_shader_code[0] == '\0' || fragment_shader_code[0] == '\0') {
-        //TODO
+        raise(SIGABRT);
     }
 
     bool vertex_shader_status = compile_shader(vertex_shader_id, vertex_shader_code);
     bool fragment_shader_status = compile_shader(fragment_shader_id, fragment_shader_code);
 
-    if (!vertex_shader_status || ! fragment_shader_status) {
-        //TODO
+    if (!vertex_shader_status || !fragment_shader_status) {
+        raise(SIGABRT);
     }
 
     GLuint program_id = glCreateProgram();
@@ -81,6 +82,8 @@ GLuint create_shader_program(const char* vertex_filepath, const char* fragment_f
         char error_log[log_len+1];
         glGetProgramInfoLog(program_id, log_len, NULL, error_log);
         fprintf(stderr, "%s:Unable to link program: %s\n", __func__, error_log);
+
+        raise(SIGABRT);
     }
 
     glDetachShader(program_id, vertex_shader_id);
