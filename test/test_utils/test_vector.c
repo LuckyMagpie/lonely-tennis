@@ -80,6 +80,33 @@ START_TEST(test_vector_foreach)
     ck_assert_msg(*(int*)vector_get(vector, 0) == 2, "First value should be double of 1 got %d", *(int*)vector_get(vector, 0));
     ck_assert_msg(*(int*)vector_get(vector, 1) == 4, "Second value should be double of 2 got %d", *(int*)vector_get(vector, 1));
     ck_assert_msg(*(int*)vector_get(vector, 2) == 6, "Third value should be double of 3 got %d", *(int*)vector_get(vector, 2));
+
+    vector_free(vector);
+}
+END_TEST
+
+void mul_by_x(void* obj, va_list ap)
+{
+    int x = va_arg(ap, int);
+    *(int*)obj = *(int*)obj * x;
+}
+
+START_TEST(test_vector_foreach_vargs)
+{
+    vector_t* vector = vector_init();
+    int test_value = 1;
+    int test_value2 = 2;
+    int test_value3 = 3;
+
+    vector_push_back(vector, &test_value);
+    vector_push_back(vector, &test_value2);
+    vector_push_back(vector, &test_value3);
+    vector_foreach(vector, &mul_by_x, 2);
+
+    ck_assert_msg(*(int*)vector_get(vector, 0) == 2, "First value should be double of 1 got %d", *(int*)vector_get(vector, 0));
+    ck_assert_msg(*(int*)vector_get(vector, 1) == 4, "Second value should be double of 2 got %d", *(int*)vector_get(vector, 1));
+    ck_assert_msg(*(int*)vector_get(vector, 2) == 6, "Third value should be double of 3 got %d", *(int*)vector_get(vector, 2));
+
     vector_free(vector);
 }
 END_TEST
@@ -120,6 +147,7 @@ Suite* vector_suit()
 
     TCase* tc4 = tcase_create("test_vector_foreach");
     tcase_add_test(tc4, test_vector_foreach);
+    tcase_add_test(tc4, test_vector_foreach_vargs);
 
     TCase* tc5 = tcase_create("test_vector_trim");
     tcase_add_test(tc5, test_vector_trim);

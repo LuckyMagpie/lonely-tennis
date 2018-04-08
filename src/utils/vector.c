@@ -46,13 +46,12 @@ void* vector_get(vector_t* vector, unsigned int index)
 void vector_foreach(vector_t* vector, void (*fp) (void*, va_list ap), ...)
 {
     va_list ap;
-    va_start(ap, fp);
 
     for (void** p = *(vector->items); p < *(vector->items) + vector->size; p++) {
+        va_start(ap, fp);
         fp(*p, ap);
+        va_end(ap);
     }
-
-    va_end(ap);
 }
 
 void vector_trim(vector_t* vector)
