@@ -3,10 +3,8 @@
 #include <cglm/cglm.h>
 
 #include "utils/mesh.h"
-#include "utils/vector.h"
 #include "render.h"
 #include "world.h"
-#include "render.h"
 #include "wall.h"
 
 world_object_t* wall_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate)
