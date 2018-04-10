@@ -17,6 +17,9 @@ void render_world(world_t* world, graphics_t* graphics)
 
     vector_foreach(world->world_objects, &do_render_call, graphics);
 
+    glBindVertexArray(0);
+    glUseProgram(0);
+
     SDL_GL_SwapWindow(graphics->window);
 }
 
