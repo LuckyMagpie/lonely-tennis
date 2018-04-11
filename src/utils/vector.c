@@ -30,7 +30,7 @@ static inline void vector_resize(vector_t* vector, unsigned int new_size)
 void vector_push_back(vector_t* vector, void* item)
 {
     if (vector->size >= vector->max_size) {
-        vector_resize(vector, vector->max_size * 2);
+        vector_resize(vector, vector->max_size * GROWTH_FACTOR);
     }
 
     unsigned int i = vector->size;
