@@ -60,7 +60,7 @@ void render_generic_object_draw(world_object_t* object, graphics_t* graphics)
     glBindVertexArray(object->vao);
 
     mat4 MVP;
-    glm_mat4_mul(graphics->vp, object->model, MVP);
+    glm_mat4_mul(graphics->vp, object->model_matrix, MVP);
     glUniformMatrix4fv(graphics->program_mvp_id, 1, GL_FALSE, MVP[0]);
 
     glDrawArrays(GL_TRIANGLES, 0, object->vertices->size/3);

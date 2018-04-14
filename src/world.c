@@ -1,6 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+
+#include <cglm/cglm.h>
 
 #include "render.h"
 #include "utils/vector.h"
@@ -14,6 +15,17 @@ world_t* world_init()
     world->score = 0;
 
     return world;
+}
+
+void world_object_update_model_matrix(world_object_t* world_object)
+{
+    mat4 model_matrix = GLM_MAT4_IDENTITY_INIT;
+
+    glm_scale(model_matrix, world_object->scale);
+    glm_rotate(model_matrix, glm_rad(world_object->rotate_angle), world_object->rotate_axis);
+    glm_translate(model_matrix, world_object->translate);
+
+    glm_mat4_copy(model_matrix, world_object->model_matrix);
 }
 
 void world_object_free(void* object, va_list _)

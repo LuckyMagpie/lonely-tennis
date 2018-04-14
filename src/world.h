@@ -20,13 +20,17 @@ typedef enum {
 } game_states_t ;
 
 typedef struct world_object_t {
-    mat4 model;
+    mat4 model_matrix;
+    vec3 scale;
+    vec3 rotate_axis;
+    vec3 translate;
     dumb_opengl_vector_t* vertices;
     dumb_opengl_vector_t* uvs;
     dumb_opengl_vector_t* normals;
     void (*do_render) (struct world_object_t*, graphics_t*);
-    GLuint vao;
     GLuint vbos[3];
+    GLuint vao;
+    float rotate_angle;
 } world_object_t;
 
 typedef struct world_t {
@@ -38,6 +42,7 @@ typedef struct world_t {
 world_t* world_init(void);
 void world_free(world_t* world);
 void world_object_free(void* object, va_list _);
+void world_object_update_model_matrix(world_object_t* world_object);
 bool simulate(world_t* world);
 
 #endif /* ifndef WORLD_H */
