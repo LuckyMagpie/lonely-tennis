@@ -34,12 +34,15 @@ typedef struct world_object_t {
 } world_object_t;
 
 typedef struct world_t {
-    game_states_t state;
-    unsigned int score;
     vector_t* world_objects;
+    Uint64 start_timer;
+    unsigned int score;
+    game_states_t state;
 } world_t;
 
 world_t* world_init(void);
+void world_start_timer(world_t* world);
+double world_current_delta_time(world_t* world);
 void world_free(world_t* world);
 void world_object_free(void* object, va_list _);
 void world_object_update_model_matrix(world_object_t* world_object);

@@ -2,6 +2,7 @@
 #include <stdarg.h>
 
 #include <cglm/cglm.h>
+#include <SDL2/SDL.h>
 
 #include "render.h"
 #include "utils/vector.h"
@@ -15,6 +16,23 @@ world_t* world_init()
     world->score = 0;
 
     return world;
+}
+
+void world_start_timer(world_t* world)
+{
+    world->start_timer = SDL_GetPerformanceCounter();
+}
+
+double world_current_delta_time(world_t* world)
+{
+    double delta_time;
+    Uint64 now = SDL_GetPerformanceCounter();
+
+    delta_time = (double)(now - world->start_timer) / SDL_GetPerformanceFrequency();
+
+    printf("%f\n", delta_time);
+
+    return delta_time;
 }
 
 void world_object_update_model_matrix(world_object_t* world_object)

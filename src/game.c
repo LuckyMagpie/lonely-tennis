@@ -7,6 +7,8 @@
 
 void run_loop(world_t* world, graphics_t* graphics)
 {
+    world_start_timer(world);
+
     while (world->state != WORLD_QUIT) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -16,6 +18,7 @@ void run_loop(world_t* world, graphics_t* graphics)
         }
 
         render_world(world, graphics);
+        world_start_timer(world);
     }
 
     world_free(world);
