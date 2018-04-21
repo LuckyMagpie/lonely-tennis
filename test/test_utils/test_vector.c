@@ -131,6 +131,36 @@ START_TEST(test_vector_trim)
 }
 END_TEST
 
+START_TEST(test_vector_pop)
+{
+    vector_t* vector = vector_init();
+    int test_value = 5;
+
+    vector_push_back(vector, &test_value);
+
+    ck_assert_msg(vector->size == 1, "vector size should be one got %d", vector->size);
+
+    int* pop_test_value = vector_pop(vector);
+
+    ck_assert_msg(*pop_test_value == test_value, "vector_pop should return last pushed back value got %d", *pop_test_value);
+    ck_assert_msg(vector->size == 0, "vector size should be zero got %d", vector->size);
+
+    vector_free(vector);
+}
+END_TEST
+
+START_TEST(test_vector_pop_underflow)
+{
+    vector_t* vector = vector_init();
+
+    void* pop_test_value = vector_pop(vector);
+
+    ck_assert_msg(pop_test_value == NULL, "vector_pop should return NULL if the vector is empty got %d", pop_test_value);
+
+    vector_free(vector);
+}
+END_TEST
+
 Suite* vector_suit()
 {
     Suite* suite = suite_create("vector");
@@ -152,11 +182,16 @@ Suite* vector_suit()
     TCase* tc5 = tcase_create("test_vector_trim");
     tcase_add_test(tc5, test_vector_trim);
 
+    TCase* tc6 = tcase_create("test_vector_pop");
+    tcase_add_test(tc6, test_vector_pop);
+    tcase_add_test(tc6, test_vector_pop_underflow);
+
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
     suite_add_tcase(suite, tc3);
     suite_add_tcase(suite, tc4);
     suite_add_tcase(suite, tc5);
+    suite_add_tcase(suite, tc6);
     return suite;
 }
 
