@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdarg.h>
 
 #include "vector.h"
@@ -41,6 +42,17 @@ void vector_push_back(vector_t* vector, void* item)
 void* vector_get(vector_t* vector, unsigned int index)
 {
     return (*vector->items)[index];
+}
+
+void* vector_pop(vector_t* vector)
+{
+    if (vector->size > 0) {
+        unsigned int i = --vector->size;
+        return (*vector->items)[i];
+    }
+
+    fprintf(stderr, "%s:Vector underflow\n", __func__);
+    return NULL;
 }
 
 void vector_foreach(vector_t* vector, void (*fp) (void*, va_list ap), ...)
