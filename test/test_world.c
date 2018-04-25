@@ -35,7 +35,7 @@ START_TEST(test_world_current_delta_time)
 
     double delta = world_current_delta_time(world);
 
-    ck_assert_msg(delta >= 0.9 && delta <= 1.1 , "Expected delta to around 1 second got %f", delta);
+    ck_assert_msg(delta >= (0.9 * SIMULATION_SPEED) && delta <= (1.1 * SIMULATION_SPEED), "Expected delta to around 1 second got %f", delta);
 
     world_free(world);
 }
