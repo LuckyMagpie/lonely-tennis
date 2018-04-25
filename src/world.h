@@ -21,6 +21,12 @@ typedef enum {
     WORLD_QUIT
 } game_states_t ;
 
+typedef struct force_t {
+    vec3 translate;
+    vec3 rotate_angle;
+    vec3 rotate_axis;
+} force_t;
+
 typedef struct world_object_t {
     mat4 model_matrix;
     vec3 scale;
@@ -29,6 +35,7 @@ typedef struct world_object_t {
     dumb_opengl_vector_t* vertices;
     dumb_opengl_vector_t* uvs;
     dumb_opengl_vector_t* normals;
+    vector_t* forces;
     void (*do_render) (struct world_object_t*, graphics_t*);
     GLuint vbos[3];
     GLuint vao;
@@ -49,5 +56,6 @@ void world_free(world_t* world);
 void world_object_free(void* object, va_list _);
 void world_object_update_model_matrix(world_object_t* world_object);
 bool simulate(world_t* world);
+void world_object_apply_force(void* object, va_list ap);
 
 #endif /* ifndef WORLD_H */
