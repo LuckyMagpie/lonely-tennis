@@ -51,8 +51,18 @@ void* vector_pop(vector_t* vector)
         return (*vector->items)[i];
     }
 
-    fprintf(stderr, "%s:Vector underflow\n", __func__);
     return NULL;
+}
+
+void vector_pop_loop(vector_t* vector,void (*fp) (void*, va_list ap), ...)
+{
+    va_list ap;
+    void* obj;
+    while ((obj = vector_pop(vector))) {
+        va_start(ap, fp);
+        fp(obj, ap);
+        va_end(ap);
+    }
 }
 
 void vector_foreach(vector_t* vector, void (*fp) (void*, va_list ap), ...)
