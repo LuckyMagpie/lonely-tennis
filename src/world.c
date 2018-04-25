@@ -30,9 +30,7 @@ double world_current_delta_time(world_t* world)
 
     delta_time = (double)(now - world->start_timer) / SDL_GetPerformanceFrequency();
 
-    printf("%f\n", delta_time);
-
-    return delta_time;
+    return delta_time * SIMULATION_SPEED;
 }
 
 void world_object_update_model_matrix(world_object_t* world_object)
