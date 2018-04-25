@@ -37,6 +37,7 @@ typedef struct world_object_t {
     dumb_opengl_vector_t* normals;
     vector_t* forces;
     void (*do_render) (struct world_object_t*, graphics_t*);
+    void (*do_simulation) (struct world_object_t*, double delta_time);
     GLuint vbos[3];
     GLuint vao;
     float rotate_angle;
@@ -55,7 +56,8 @@ double world_current_delta_time(world_t* world);
 void world_free(world_t* world);
 void world_object_free(void* object, va_list _);
 void world_object_update_model_matrix(world_object_t* world_object);
-bool simulate(world_t* world);
 void world_object_apply_force(void* object, va_list ap);
+void world_simulate(world_t* world);
+void do_simulate_call(void* object, va_list ap);
 
 #endif /* ifndef WORLD_H */

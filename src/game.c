@@ -17,6 +17,7 @@ void run_loop(world_t* world, graphics_t* graphics)
             }
         }
 
+        world_simulate(world);
         render_world(world, graphics);
         world_start_timer(world);
     }

@@ -58,6 +58,21 @@ void world_object_apply_force(void* object, va_list ap)
     free(force);
 }
 
+void do_simulate_call(void* object, va_list ap)
+{
+    double delta_time = va_arg(ap, double);
+    world_object_t* wobj = (world_object_t*)object;
+
+    if (wobj->do_simulation != NULL) {
+        wobj->do_simulation(wobj, delta_time);
+    }
+}
+
+void world_simulate(world_t* world)
+{
+    vector_foreach(world->world_objects, &do_simulate_call, world_current_delta_time(world));
+}
+
 void world_object_free(void* object, va_list _)
 {
     (void)_;
