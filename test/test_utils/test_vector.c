@@ -161,6 +161,30 @@ START_TEST(test_vector_pop_underflow)
 }
 END_TEST
 
+void count_calls(void* obj, va_list ap)
+{
+    int* x = va_arg(ap, int*);
+    (*x)++;
+}
+
+START_TEST(test_vector_pop_loop)
+{
+    vector_t* vector = vector_init();
+    int test_value = 0;
+    int count = 0;
+
+    vector_push_back(vector, &test_value);
+    vector_push_back(vector, &test_value);
+    vector_push_back(vector, &test_value);
+    vector_pop_loop(vector, &count_calls, &count);
+
+    ck_assert_msg(vector->size == 0, "Vector size should be zero got %d", vector->size);
+    ck_assert_msg(count == 3, "Pop loop call count should be 3 got %d", count);
+
+    vector_free(vector);
+}
+END_TEST
+
 Suite* vector_suit()
 {
     Suite* suite = suite_create("vector");
@@ -186,12 +210,16 @@ Suite* vector_suit()
     tcase_add_test(tc6, test_vector_pop);
     tcase_add_test(tc6, test_vector_pop_underflow);
 
+    TCase* tc7 = tcase_create("test_vector_pop_loop");
+    tcase_add_test(tc7, test_vector_pop_loop);
+
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
     suite_add_tcase(suite, tc3);
     suite_add_tcase(suite, tc4);
     suite_add_tcase(suite, tc5);
     suite_add_tcase(suite, tc6);
+    suite_add_tcase(suite, tc7);
     return suite;
 }
 
