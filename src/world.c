@@ -39,9 +39,9 @@ void world_object_update_model_matrix(world_object_t* world_object)
 {
     mat4 model_matrix = GLM_MAT4_IDENTITY_INIT;
 
-    glm_scale(model_matrix, world_object->scale);
-    glm_rotate(model_matrix, glm_rad(world_object->rotate_angle), world_object->rotate_axis);
     glm_translate(model_matrix, world_object->translate);
+    glm_rotate(model_matrix, glm_rad(world_object->rotate_angle), world_object->rotate_axis);
+    glm_scale(model_matrix, world_object->scale);
 
     glm_mat4_copy(model_matrix, world_object->model_matrix);
 }
