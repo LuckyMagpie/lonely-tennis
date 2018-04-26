@@ -37,14 +37,14 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
 
     world_object_update_model_matrix(ball);
 
-    ball->do_render = &render_generic_object_draw;
+    ball->fn_render = &render_generic_object_draw;
     ball->forces = vector_init();
-    ball->do_simulation = &ball_do_simulation;
+    ball->fn_simulate = &ball_simulate;
 
     return ball;
 }
 
-void ball_do_simulation(world_object_t* ball, double time_delta)
+void ball_simulate(world_object_t* ball, double time_delta)
 {
     ball_apply_constant_forces(ball, time_delta);
     vector_pop_loop(ball->forces, &world_object_apply_force, ball, time_delta);

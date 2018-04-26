@@ -58,19 +58,25 @@ void world_object_apply_force(void* object, va_list ap)
     free(force);
 }
 
-void do_simulate_call(void* object, va_list ap)
+void world_object_fn_render_call(void* object, va_list ap)
+{
+    graphics_t* graphics = va_arg(ap, graphics_t*);
+    ((world_object_t*)object)->fn_render(object, graphics);
+}
+
+void world_object_fn_simulate_call(void* object, va_list ap)
 {
     double delta_time = va_arg(ap, double);
     world_object_t* wobj = (world_object_t*)object;
 
-    if (wobj->do_simulation != NULL) {
-        wobj->do_simulation(wobj, delta_time);
+    if (wobj->fn_simulate != NULL) {
+        wobj->fn_simulate(wobj, delta_time);
     }
 }
 
 void world_simulate(world_t* world)
 {
-    vector_foreach(world->world_objects, &do_simulate_call, world_current_delta_time(world));
+    vector_foreach(world->world_objects, &world_object_fn_simulate_call, world_current_delta_time(world));
 }
 
 void world_object_free(void* object, va_list _)

@@ -5,9 +5,9 @@
 #include <SDL2/SDL.h>
 #include <cglm/cglm.h>
 
+#include "utils/vector.h"
 #include "graphics.h"
 #include "world.h"
-#include "utils/vector.h"
 #include "render.h"
 
 void render_world(world_t* world, graphics_t* graphics)
@@ -15,7 +15,7 @@ void render_world(world_t* world, graphics_t* graphics)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(graphics->program_id);
 
-    vector_foreach(world->world_objects, &do_render_call, graphics);
+    vector_foreach(world->world_objects, &world_object_fn_render_call, graphics);
 
     glBindVertexArray(0);
     glUseProgram(0);
@@ -64,10 +64,4 @@ void render_generic_object_draw(world_object_t* object, graphics_t* graphics)
     glUniformMatrix4fv(graphics->program_mvp_id, 1, GL_FALSE, MVP[0]);
 
     glDrawArrays(GL_TRIANGLES, 0, object->vertices->size/3);
-}
-
-void do_render_call(void* object, va_list ap)
-{
-    graphics_t* graphics = va_arg(ap, graphics_t*);
-    ((world_object_t*)object)->do_render(object, graphics);
 }
