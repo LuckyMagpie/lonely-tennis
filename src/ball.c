@@ -10,10 +10,10 @@
 #include "world.h"
 #include "ball.h"
 
-static inline void ball_apply_constant_forces(world_object_t* ball, double time_delta)
+static inline void ball_apply_constant_forces(world_object_t* ball, double delta_time)
 {
     vec3 gravity = {0.0f, -9.8f, 0.0f};
-    glm_vec_scale(gravity, (float)time_delta, gravity);
+    glm_vec_scale(gravity, (float)delta_time, gravity);
     glm_vec_add(ball->translate, gravity, ball->translate);
 }
 
@@ -44,10 +44,10 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     return ball;
 }
 
-void ball_simulate(world_object_t* ball, double time_delta)
+void ball_simulate(world_object_t* ball, double delta_time)
 {
-    ball_apply_constant_forces(ball, time_delta);
-    vector_pop_loop(ball->forces, &world_object_apply_force, ball, time_delta);
+    ball_apply_constant_forces(ball, delta_time);
+    vector_pop_loop(ball->forces, &world_object_apply_force, ball, delta_time);
     world_object_update_model_matrix(ball);
 }
 

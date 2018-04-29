@@ -48,10 +48,10 @@ void world_object_apply_force(void* object, va_list ap)
 {
     force_t* force = (force_t*)object;
     world_object_t* ball = va_arg(ap, world_object_t*);
-    double time_delta = va_arg(ap, double);
+    double delta_time = va_arg(ap, double);
 
     vec3 scaled_translate;
-    glm_vec_scale(force->translate, (float)time_delta, scaled_translate);
+    glm_vec_scale(force->translate, (float)delta_time, scaled_translate);
 
     glm_vec_add(ball->translate, scaled_translate, ball->translate);
 
