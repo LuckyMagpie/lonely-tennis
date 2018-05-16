@@ -111,3 +111,34 @@ bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vec
 
     return true;
 }
+
+void mesh_find_maxmin(dumb_opengl_vector_t* vertices, vec3 max, vec3 min)
+{
+    memset(max, 0, 3 * sizeof(float));
+    memset(min, 0, 3 * sizeof(float));
+    for (unsigned int i = 0; i < vertices->size; i += 3) {
+        if (vertices->items[i + 0] > max[0]) {
+            max[0] = vertices->items[i + 0];
+        }
+
+        if (vertices->items[i + 0] < min[0]) {
+            min[0] = vertices->items[i + 0];
+        }
+
+        if (vertices->items[i + 1] > max[1]) {
+            max[1] = vertices->items[i + 1];
+        }
+
+        if (vertices->items[i + 1] < min[1]) {
+            min[1] = vertices->items[i + 1];
+        }
+
+        if (vertices->items[i + 2] > max[2]) {
+            max[2] = vertices->items[i + 2];
+        }
+
+        if (vertices->items[i + 2] < min[2]) {
+            min[2] = vertices->items[i + 2];
+        }
+    }
+}
