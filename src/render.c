@@ -36,12 +36,12 @@ void render_vertex_objects_init(world_object_t* object)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, object->vbos[1]);
-    glBufferData(GL_ARRAY_BUFFER, object->uvs->size * sizeof(float), object->vertices->items, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, object->uvs->size * sizeof(float), object->uvs->items, GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, object->vbos[2]);
-    glBufferData(GL_ARRAY_BUFFER, object->normals->size * sizeof(float), object->vertices->items, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, object->normals->size * sizeof(float), object->normals->items, GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
