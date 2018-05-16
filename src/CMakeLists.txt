@@ -9,6 +9,7 @@ target_sources(game
         ${CMAKE_CURRENT_LIST_DIR}/world.c
         ${CMAKE_CURRENT_LIST_DIR}/wall.c
         ${CMAKE_CURRENT_LIST_DIR}/ball.c
+        ${CMAKE_CURRENT_LIST_DIR}/colission.c
 )
 target_include_directories(game PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}

@@ -38,6 +38,7 @@ typedef struct world_object_t {
     vector_t* forces;
     void (*fn_render) (struct world_object_t*, graphics_t*);
     void (*fn_simulate) (struct world_object_t*, double delta_time);
+    void* bounding_volume;
     GLuint vbos[3];
     GLuint vao;
     float rotate_angle;

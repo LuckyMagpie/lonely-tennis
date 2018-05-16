@@ -4,6 +4,7 @@
 #include <cglm/cglm.h>
 
 #include "utils/mesh.h"
+#include "colission.h"
 #include "render.h"
 #include "world.h"
 #include "wall.h"
@@ -27,6 +28,8 @@ world_object_t* wall_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     glm_vec_copy(translate, wall->translate);
 
     world_object_update_model_matrix(wall);
+
+    colission_set_bounding_obb(wall);
 
     wall->fn_render = &render_generic_object_draw;
     wall->fn_simulate = NULL;
