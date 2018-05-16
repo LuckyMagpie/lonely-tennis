@@ -142,3 +142,14 @@ void mesh_find_maxmin(dumb_opengl_vector_t* vertices, vec3 max, vec3 min)
         }
     }
 }
+
+void mesh_find_center(dumb_opengl_vector_t* vertices, vec3 center)
+{
+    vec3 max;
+    vec3 min;
+
+    mesh_find_maxmin(vertices, max, min);
+    center[0] = (max[0] + min[0])/2;
+    center[1] = (max[1] + min[1])/2;
+    center[2] = (max[2] + min[2])/2;
+}
