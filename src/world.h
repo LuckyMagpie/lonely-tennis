@@ -23,8 +23,8 @@ typedef enum {
 
 typedef struct force_t {
     vec3 translate;
-    vec3 rotate_angle;
     vec3 rotate_axis;
+    float rotate_angle;
 } force_t;
 
 typedef struct world_object_t {
