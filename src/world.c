@@ -93,6 +93,10 @@ void world_object_free(void* object, va_list _)
         vector_free(wobj->forces);
     }
 
+    if (wobj->bounding_volume != NULL) {
+        free(wobj->bounding_volume);
+    }
+
     render_vertex_objects_free(wobj);
 }
 
