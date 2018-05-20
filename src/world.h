@@ -56,7 +56,7 @@ void world_start_timer(world_t* world);
 double world_current_delta_time(world_t* world);
 void world_free(world_t* world);
 void world_object_free(void* object, va_list _);
-void world_object_update_model_matrix(world_object_t* world_object);
+void world_object_update_model_matrix(world_object_t* wobj);
 void world_object_apply_force(void* object, va_list ap);
 void world_simulate(world_t* world);
 void world_object_fn_simulate_call(void* object, va_list ap);

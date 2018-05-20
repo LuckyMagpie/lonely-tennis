@@ -33,15 +33,15 @@ double world_current_delta_time(world_t* world)
     return delta_time * SIMULATION_SPEED;
 }
 
-void world_object_update_model_matrix(world_object_t* world_object)
+void world_object_update_model_matrix(world_object_t* wobj)
 {
     mat4 model_matrix = GLM_MAT4_IDENTITY_INIT;
 
-    glm_translate(model_matrix, world_object->translate);
-    glm_rotate(model_matrix, glm_rad(world_object->rotate_angle), world_object->rotate_axis);
-    glm_scale(model_matrix, world_object->scale);
+    glm_translate(model_matrix, wobj->translate);
+    glm_rotate(model_matrix, glm_rad(wobj->rotate_angle), wobj->rotate_axis);
+    glm_scale(model_matrix, wobj->scale);
 
-    glm_mat4_copy(model_matrix, world_object->model_matrix);
+    glm_mat4_copy(model_matrix, wobj->model_matrix);
 }
 
 void world_object_apply_force(void* object, va_list ap)
