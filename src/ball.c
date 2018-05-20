@@ -11,13 +11,6 @@
 #include "world.h"
 #include "ball.h"
 
-static inline void ball_apply_constant_forces(world_object_t* ball, double delta_time)
-{
-    vec3 gravity = {0.0f, -9.8f, 0.0f};
-    glm_vec_scale(gravity, (float)delta_time, gravity);
-    glm_vec_add(ball->translate, gravity, ball->translate);
-}
-
 world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate)
 {
     world_object_t* ball = malloc(sizeof(world_object_t));
@@ -39,6 +32,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     world_object_update_model_matrix(ball);
 
     colission_set_bounding_sphere(ball);
+
     ball->fn_render = &render_generic_object_draw;
     ball->forces = vector_init();
     ball->fn_simulate = &ball_simulate;
@@ -48,7 +42,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
 
 void ball_simulate(world_object_t* ball, double delta_time)
 {
-    ball_apply_constant_forces(ball, delta_time);
+    world_object_add_gravity(ball);
     vector_pop_loop(ball->forces, &world_object_apply_force, ball, delta_time);
     world_object_update_model_matrix(ball);
     colission_update_bounding_sphere_center(ball);

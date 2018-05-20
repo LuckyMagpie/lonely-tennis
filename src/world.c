@@ -55,6 +55,13 @@ void world_object_add_force(world_object_t* wobj, vec3 translate, vec3 rotate_ax
     vector_push_back(wobj->forces, force);
 }
 
+void world_object_add_gravity(world_object_t* wobj)
+{
+    vec3 gravity = {0.0f, -9.8f, 0.0f};
+    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f };
+    world_object_add_force(wobj, gravity, rotate_axis, 0);
+}
+
 void world_object_apply_force(void* object, va_list ap)
 {
     force_t* force = (force_t*)object;
