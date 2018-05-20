@@ -44,6 +44,17 @@ void world_object_update_model_matrix(world_object_t* wobj)
     glm_mat4_copy(model_matrix, wobj->model_matrix);
 }
 
+void world_object_add_force(world_object_t* wobj, vec3 translate, vec3 rotate_axis, float rotate_angle)
+{
+    force_t* force = malloc(sizeof(force_t));
+
+    glm_vec_copy(translate, force->translate);
+    glm_vec_copy(rotate_axis, force->rotate_axis);
+    force->rotate_angle = rotate_angle;
+
+    vector_push_back(wobj->forces, force);
+}
+
 void world_object_apply_force(void* object, va_list ap)
 {
     force_t* force = (force_t*)object;
