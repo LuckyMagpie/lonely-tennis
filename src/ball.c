@@ -6,6 +6,7 @@
 
 #include "utils/mesh.h"
 #include "utils/vector.h"
+#include "colission.h"
 #include "render.h"
 #include "world.h"
 #include "ball.h"
@@ -37,6 +38,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
 
     world_object_update_model_matrix(ball);
 
+    colission_set_bounding_sphere(ball);
     ball->fn_render = &render_generic_object_draw;
     ball->forces = vector_init();
     ball->fn_simulate = &ball_simulate;
@@ -49,5 +51,6 @@ void ball_simulate(world_object_t* ball, double delta_time)
     ball_apply_constant_forces(ball, delta_time);
     vector_pop_loop(ball->forces, &world_object_apply_force, ball, delta_time);
     world_object_update_model_matrix(ball);
+    colission_update_bounding_sphere_center(ball);
 }
 

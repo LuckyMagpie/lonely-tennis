@@ -13,10 +13,12 @@ typedef struct bounding_obb_t {
 
 typedef struct bounding_sphere_t {
     vec3 center;
+    vec3 local_center;
     float radius;
 } bounding_sphere_t;
 
 void colission_set_bounding_obb(world_object_t* wob);
 void colission_set_bounding_sphere(world_object_t* wobj);
+void colission_update_bounding_sphere_center(world_object_t* wobj);
 
 #endif /* ifndef COLISSION_H */
