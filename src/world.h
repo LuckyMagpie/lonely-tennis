@@ -26,6 +26,7 @@ typedef struct world_object_t {
     vec3 scale;
     vec3 rotate_axis;
     vec3 translate;
+    vec3 velocity;
     dumb_opengl_vector_t* vertices;
     dumb_opengl_vector_t* uvs;
     dumb_opengl_vector_t* normals;
@@ -53,7 +54,8 @@ void world_object_free(void* object, va_list _);
 void world_object_update_model_matrix(world_object_t* wobj);
 void world_object_add_force(world_object_t* wobj, vec3 force);
 void world_object_add_gravity(world_object_t* wobj);
-void world_object_apply_force(void* object, va_list ap);
+void world_object_sum_forces(void* force, va_list ap);
+void world_object_apply_forces(world_object_t* wobj, double delta_time);
 void world_simulate(world_t* world);
 void world_object_fn_simulate_call(void* object, va_list ap);
 void world_object_fn_render_call(void* object, va_list ap);

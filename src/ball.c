@@ -11,7 +11,7 @@
 #include "world.h"
 #include "ball.h"
 
-world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate)
+world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate, vec3 velocity)
 {
     world_object_t* ball = malloc(sizeof(world_object_t));
 
@@ -28,6 +28,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     glm_vec_copy(rotate_axis, ball->rotate_axis);
     ball->rotate_angle = rotate_angle;
     glm_vec_copy(translate, ball->translate);
+    glm_vec_copy(velocity, ball->velocity);
 
     world_object_update_model_matrix(ball);
 
@@ -43,6 +44,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
 void ball_simulate(world_object_t* ball, double delta_time)
 {
     world_object_add_gravity(ball);
+    world_object_apply_forces(ball, delta_time);
     world_object_update_model_matrix(ball);
     colission_update_bounding_sphere_center(ball);
 }

@@ -59,18 +59,30 @@ void world_object_add_gravity(world_object_t* wobj)
     world_object_add_force(wobj, gravity);
 }
 
-void world_object_apply_force(void* object, va_list ap)
+void world_object_sum_forces(void* force, va_list ap)
 {
-    force_t* force = (force_t*)object;
-    world_object_t* ball = va_arg(ap, world_object_t*);
-    double delta_time = va_arg(ap, double);
-
-    vec3 scaled_translate;
-    glm_vec_scale(force->translate, (float)delta_time, scaled_translate);
-
-    glm_vec_add(ball->translate, scaled_translate, ball->translate);
+    vec3* net_force = va_arg(ap, vec3*);
+    glm_vec_add(force, *net_force, *net_force);
 
     free(force);
+}
+
+void world_object_apply_forces(world_object_t* wobj, double delta_time)
+{
+    vec3 net_force = { 0.0f, 0.0f, 0.0f };
+    vector_pop_loop(wobj->forces, &world_object_sum_forces, net_force);
+
+    vec3 old_velocity;
+    vec3 scaled_net_force;
+    glm_vec_scale(net_force, (float)delta_time, scaled_net_force);
+    glm_vec_copy(wobj->velocity, old_velocity);
+
+    glm_vec_add(old_velocity, scaled_net_force, wobj->velocity);
+
+    // position = position + (old_velocity + velocity) * 0.5 * dt
+    glm_vec_add(old_velocity, wobj->velocity, old_velocity);
+    glm_vec_scale(old_velocity, 0.5 * delta_time, old_velocity);
+    glm_vec_add(wobj->translate, old_velocity, wobj->translate);
 }
 
 void world_object_fn_render_call(void* object, va_list ap)
