@@ -85,34 +85,69 @@ START_TEST(test_world_object_update_model_matrix)
 }
 END_TEST
 
-void apply_forces_wrapper(void* force, ...)
+START_TEST(test_world_object_add_force)
 {
-    va_list ap;
-    va_start(ap, force);
-    world_object_apply_force(force, ap);
-    va_end(ap);
-}
-
-START_TEST(test_world_object_apply_force)
-{
-
-    vec3 translate = {5.0f, 5.0f, 5.0f};
-    double delta_time = 5.0;
-
     world_object_t* wobj = malloc(sizeof(world_object_t));
+    wobj->forces = vector_init();
+    vec3 force = { 1.0f, 2.0f, 3.0f };
+
+    world_object_add_force(wobj, force);
+
+    ck_assert_msg(wobj->forces->size == 1, "Expected force vector size to be 1 got %d", wobj->forces->size);
+    ck_assert_msg(((float*)vector_get(wobj->forces, 0))[0] == 1.0f, "Expected X force in object to be 1.0 got %f", ((float*)vector_get(wobj->forces, 0))[0]);
+    ck_assert_msg(((float*)vector_get(wobj->forces, 0))[1] == 2.0f, "Expected Y force in object to be 2.0 got %f", ((float*)vector_get(wobj->forces, 0))[1]);
+    ck_assert_msg(((float*)vector_get(wobj->forces, 0))[2] == 3.0f, "Expected Z force in object to be 3.0 got %f", ((float*)vector_get(wobj->forces, 0))[2]);
+
+    vector_foreach(wobj->forces, &vector_generic_item_free);
+    vector_free(wobj->forces);
+    free(wobj);
+}
+END_TEST
+
+START_TEST(test_world_object_add_gravity)
+{
+    world_object_t* wobj = malloc(sizeof(world_object_t));
+    wobj->forces = vector_init();
+
+    world_object_add_gravity(wobj);
+
+    ck_assert_msg(wobj->forces->size == 1, "Expected force vector size to be 1 got %d", wobj->forces->size);
+    ck_assert_msg(((float*)vector_get(wobj->forces, 0))[0] == 0.0f, "Expected X force in object to be 0.0 got %f", ((float*)vector_get(wobj->forces, 0))[0]);
+    ck_assert_msg(((float*)vector_get(wobj->forces, 0))[1] == -9.8f, "Expected Y force in object to be -9.8 got %f", ((float*)vector_get(wobj->forces, 0))[1]);
+    ck_assert_msg(((float*)vector_get(wobj->forces, 0))[2] == 0.0f, "Expected Z force in object to be 0.0 got %f", ((float*)vector_get(wobj->forces, 0))[2]);
+
+    vector_foreach(wobj->forces, &vector_generic_item_free);
+    vector_free(wobj->forces);
+    free(wobj);
+}
+END_TEST
+
+START_TEST(test_world_object_apply_forces)
+{
+    vec3 translate = { 0.0f, 0.0f, 0.0f };
+    vec3 force = { 5.0f, 0.0f, 0.0f };
+    vec3 velocity = { 0.0f, 0.0f, 0.0f };
+    double delta_time = 1.0f;
+    world_object_t* wobj = malloc(sizeof(world_object_t));
+    wobj->forces = vector_init();
+
+    glm_vec_copy(velocity, wobj->velocity);
     glm_vec_copy(translate, wobj->translate);
-    force_t* force = malloc(sizeof(force_t));
-    force->translate[0] = 2.0f;
-    force->translate[1] = 3.0f;
-    force->translate[2] = 4.0f;
+    world_object_add_force(wobj, force);
+    world_object_add_gravity(wobj);
 
-    apply_forces_wrapper(force, wobj, delta_time);
+    world_object_apply_forces(wobj, delta_time);
 
-    ck_assert_msg(wobj->translate[0] == 15.0f, "Object X should have been 'pushed' 15 units got %f", wobj->translate[0]);
-    ck_assert_msg(wobj->translate[1] == 20.0f, "Object Y should have been 'pushed' 15 units got %f", wobj->translate[1]);
-    ck_assert_msg(wobj->translate[2] == 25.0f, "Object Z should have been 'pushed' 15 units got %f", wobj->translate[2]);
+    ck_assert_msg(wobj->forces->size == 0, "Expected force vector to be empty got size %d", wobj->forces->size);
+    ck_assert_msg(wobj->velocity[0] == 5.0f, "Expected X velocity in object to be 5.0 got %f", wobj->velocity[0]);
+    ck_assert_msg(wobj->velocity[1] == -9.8f, "Expected Y velocity in object to be -9.8 got %f", wobj->velocity[1]);
+    ck_assert_msg(wobj->velocity[2] == 0.0f, "Expected Z velocity in object to be 0.0 got %f", wobj->velocity[2]);
 
-    // force is freed after applying it to the object, valgrind tests that
+    ck_assert_msg(wobj->translate[0] == 2.5f, "Expected X position in object to be 2.5 got %f", wobj->translate[0]);
+    ck_assert_msg(wobj->translate[1] == -4.9f, "Expected Y position in object to be -4.9 got %f", wobj->translate[1]);
+    ck_assert_msg(wobj->translate[2] == 0.0f, "Expected Z position in object to be 0.0 got %f", wobj->translate[2]);
+
+    vector_free(wobj->forces);
     free(wobj);
 }
 END_TEST
@@ -130,7 +165,9 @@ Suite* world_suite()
 
     TCase* tc3 = tcase_create("test_world_object");
     tcase_add_test(tc3, test_world_object_update_model_matrix);
-    tcase_add_test(tc3, test_world_object_apply_force);
+    tcase_add_test(tc3, test_world_object_add_force);
+    tcase_add_test(tc3, test_world_object_add_gravity);
+    tcase_add_test(tc3, test_world_object_apply_forces);
 
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
