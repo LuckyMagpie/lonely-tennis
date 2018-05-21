@@ -43,7 +43,6 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
 void ball_simulate(world_object_t* ball, double delta_time)
 {
     world_object_add_gravity(ball);
-    vector_pop_loop(ball->forces, &world_object_apply_force, ball, delta_time);
     world_object_update_model_matrix(ball);
     colission_update_bounding_sphere_center(ball);
 }

@@ -21,12 +21,6 @@ typedef enum {
     WORLD_QUIT
 } game_states_t ;
 
-typedef struct force_t {
-    vec3 translate;
-    vec3 rotate_axis;
-    float rotate_angle;
-} force_t;
-
 typedef struct world_object_t {
     mat4 model_matrix;
     vec3 scale;
@@ -57,7 +51,7 @@ double world_current_delta_time(world_t* world);
 void world_free(world_t* world);
 void world_object_free(void* object, va_list _);
 void world_object_update_model_matrix(world_object_t* wobj);
-void world_object_add_force(world_object_t* wobj, vec3 translate, vec3 rotate_axis, float rotate_angle);
+void world_object_add_force(world_object_t* wobj, vec3 force);
 void world_object_add_gravity(world_object_t* wobj);
 void world_object_apply_force(void* object, va_list ap);
 void world_simulate(world_t* world);
