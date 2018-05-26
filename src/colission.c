@@ -68,6 +68,17 @@ void colission_update_bounding_sphere_center(bounding_sphere_t* sphere, mat4 mod
     glm_vec3(center_vec4, sphere->center);
 }
 
+bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, bounding_sphere_t* sphere2)
+{
+    vec3 distance;
+    glm_vec_sub(sphere->center, sphere2->center, distance);
+
+    float squared_distance = glm_vec_dot(distance, distance);
+    float radius_sum = sphere->radius + sphere2->radius;
+
+    return squared_distance <= radius_sum * radius_sum;
+}
+
 void colission_free_bounding_volume(bounding_volume_t* bounding_volume)
 {
     free(bounding_volume->data);
