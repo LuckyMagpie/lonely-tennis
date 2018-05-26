@@ -29,7 +29,7 @@ world_object_t* wall_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
 
     world_object_update_model_matrix(wall);
 
-    colission_set_bounding_obb(wall);
+    wall->bounding_volume = colission_init_bounding_obb(wall->vertices, wall-> model_matrix, wall->scale, wall->rotate_axis, wall->rotate_angle);
 
     wall->fn_render = &render_generic_object_draw;
     wall->fn_simulate = NULL;

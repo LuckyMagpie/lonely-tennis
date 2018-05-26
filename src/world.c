@@ -6,6 +6,7 @@
 
 #include "render.h"
 #include "utils/vector.h"
+#include "colission.h"
 #include "world.h"
 
 world_t* world_init()
@@ -121,7 +122,7 @@ void world_object_free(void* object, va_list _)
     }
 
     if (wobj->bounding_volume != NULL) {
-        free(wobj->bounding_volume);
+        colission_free_bounding_volume(wobj->bounding_volume);
     }
 
     render_vertex_objects_free(wobj);

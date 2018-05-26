@@ -32,7 +32,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
 
     world_object_update_model_matrix(ball);
 
-    colission_set_bounding_sphere(ball);
+    ball->bounding_volume = colission_init_bounding_sphere(ball->vertices, ball->model_matrix, ball->scale);
 
     ball->fn_render = &render_generic_object_draw;
     ball->forces = vector_init();
@@ -46,6 +46,6 @@ void ball_simulate(world_object_t* ball, double delta_time)
     world_object_add_gravity(ball);
     world_object_apply_forces(ball, delta_time);
     world_object_update_model_matrix(ball);
-    colission_update_bounding_sphere_center(ball);
+    colission_update_bounding_sphere_center(ball->bounding_volume->data, ball->model_matrix);
 }
 

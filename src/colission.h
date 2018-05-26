@@ -3,7 +3,15 @@
 
 #include <cglm/cglm.h>
 
-#include "world.h"
+typedef enum {
+    OBB,
+    SPHERE
+} bounding_volume_kind_t;
+
+typedef struct bounding_volume_t {
+    void* data;
+    bounding_volume_kind_t kind;
+} bounding_volume_t;
 
 typedef struct bounding_obb_t {
     mat3 rotation_matrix;
@@ -17,8 +25,9 @@ typedef struct bounding_sphere_t {
     float radius;
 } bounding_sphere_t;
 
-void colission_set_bounding_obb(world_object_t* wob);
-void colission_set_bounding_sphere(world_object_t* wobj);
-void colission_update_bounding_sphere_center(world_object_t* wobj);
+bounding_volume_t* colission_init_bounding_obb(dumb_opengl_vector_t* vertices, mat4 model_matrix, vec3 scale, vec3 rotate_axis, float rotate_angle);
+bounding_volume_t* colission_init_bounding_sphere(dumb_opengl_vector_t* vertices, mat4 model_matrix, vec3 scale);
+void colission_update_bounding_sphere_center(bounding_sphere_t* sphere, mat4 model_matrix);
+void colission_free_bounding_volume(bounding_volume_t* bounding_volume);
 
 #endif /* ifndef COLISSION_H */

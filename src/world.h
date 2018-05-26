@@ -9,6 +9,7 @@
 
 #include "utils/vector.h"
 #include "graphics.h"
+#include "colission.h"
 
 #define SIMULATION_SPEED 100.0
 
@@ -31,9 +32,9 @@ typedef struct world_object_t {
     dumb_opengl_vector_t* uvs;
     dumb_opengl_vector_t* normals;
     vector_t* forces;
+    bounding_volume_t* bounding_volume;
     void (*fn_render) (struct world_object_t*, graphics_t*);
     void (*fn_simulate) (struct world_object_t*, double delta_time);
-    void* bounding_volume;
     GLuint vbos[3];
     GLuint vao;
     float rotate_angle;
