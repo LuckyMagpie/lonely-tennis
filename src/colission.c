@@ -68,6 +68,16 @@ void colission_update_bounding_sphere_center(bounding_sphere_t* sphere, mat4 mod
     glm_vec3(center_vec4, sphere->center);
 }
 
+bool colission_test_intersection_sphere_obb(bounding_sphere_t* sphere, bounding_obb_t* obb)
+{
+    vec3 closest_point;
+    vec3 distance;
+    colission_query_closest_point_obb(obb, sphere->center, closest_point);
+    glm_vec_sub(closest_point, sphere->center, distance);
+
+    return glm_vec_dot(distance, distance) <= sphere->radius * sphere->radius;
+}
+
 bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, bounding_sphere_t* sphere2)
 {
     vec3 distance;
