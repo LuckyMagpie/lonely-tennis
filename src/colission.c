@@ -89,6 +89,15 @@ bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, boundi
     return squared_distance <= radius_sum * radius_sum;
 }
 
+bool colission_test_intersection_bounding_volume(bounding_volume_t* perp, bounding_volume_t* victim)
+{
+    switch (perp->kind) {
+        case SPHERE: return sphere_jmp_table[victim->kind](perp->data, victim->data);
+        case OBB: return false; //TODO
+        default: return false;
+    }
+}
+
 void colission_query_closest_point_obb(bounding_obb_t* obb, vec3 point, vec3 result)
 {
     vec3 distance;

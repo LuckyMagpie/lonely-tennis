@@ -33,6 +33,12 @@ void colission_update_bounding_sphere_center(bounding_sphere_t* sphere, mat4 mod
 void colission_query_closest_point_obb(bounding_obb_t* obb, vec3 point, vec3 result);
 bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, bounding_sphere_t* sphere2);
 bool colission_test_intersection_sphere_obb(bounding_sphere_t* sphere, bounding_obb_t* obb);
+bool colission_test_intersection_bounding_volume(bounding_volume_t* perp, bounding_volume_t* victim);
 void colission_free_bounding_volume(bounding_volume_t* bounding_volume);
+
+static bool (*sphere_jmp_table[])(void*, void*) = {
+    (bool (*) (void*, void*))&colission_test_intersection_sphere_obb,
+    (bool (*) (void*, void*))&colission_test_intersection_sphere_sphere
+};
 
 #endif /* ifndef COLISSION_H */
