@@ -30,6 +30,7 @@ typedef struct bounding_sphere_t {
 bounding_volume_t* colission_init_bounding_obb(dumb_opengl_vector_t* vertices, mat4 model_matrix, vec3 scale, vec3 rotate_axis, float rotate_angle);
 bounding_volume_t* colission_init_bounding_sphere(dumb_opengl_vector_t* vertices, mat4 model_matrix, vec3 scale);
 void colission_update_bounding_sphere_center(bounding_sphere_t* sphere, mat4 model_matrix);
+void colission_query_closest_point_obb(bounding_obb_t* obb, vec3 point, vec3 result);
 bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, bounding_sphere_t* sphere2);
 void colission_free_bounding_volume(bounding_volume_t* bounding_volume);
 

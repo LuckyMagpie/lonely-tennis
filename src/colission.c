@@ -79,6 +79,29 @@ bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, boundi
     return squared_distance <= radius_sum * radius_sum;
 }
 
+void colission_query_closest_point_obb(bounding_obb_t* obb, vec3 point, vec3 result)
+{
+    vec3 distance;
+    glm_vec_sub(point, obb->center, distance);
+    glm_vec_copy(obb->center, result);
+
+    for (int i = 0; i < 3; i++) {
+        float projected_distance = glm_vec_dot(distance, obb->rotation_matrix[i]);
+
+        if (projected_distance > obb->extents[i]) {
+            projected_distance = obb->extents[i];
+        }
+
+        if (projected_distance < -obb->extents[i]) {
+            projected_distance = -obb->extents[i];
+        }
+
+        vec3 transformed_distance;
+        glm_vec_scale(obb->rotation_matrix[i], projected_distance, transformed_distance);
+        glm_vec_add(result, transformed_distance, result);
+    }
+}
+
 void colission_free_bounding_volume(bounding_volume_t* bounding_volume)
 {
     free(bounding_volume->data);
