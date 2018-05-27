@@ -41,8 +41,9 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     return ball;
 }
 
-void ball_simulate(world_object_t* ball, double delta_time)
+void ball_simulate(world_object_t* ball, double delta_time, vector_t* colission_victims)
 {
+    vector_foreach(colission_victims, &world_object_check_colissions, ball);
     world_object_add_gravity(ball);
     world_object_apply_forces(ball, delta_time);
     world_object_update_model_matrix(ball);

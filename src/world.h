@@ -34,7 +34,7 @@ typedef struct world_object_t {
     vector_t* forces;
     bounding_volume_t* bounding_volume;
     void (*fn_render) (struct world_object_t*, graphics_t*);
-    void (*fn_simulate) (struct world_object_t*, double delta_time);
+    void (*fn_simulate) (struct world_object_t*, double, vector_t*);
     GLuint vbos[3];
     GLuint vao;
     float rotate_angle;
@@ -57,6 +57,7 @@ void world_object_add_force(world_object_t* wobj, vec3 force);
 void world_object_add_gravity(world_object_t* wobj);
 void world_object_sum_forces(void* force, va_list ap);
 void world_object_apply_forces(world_object_t* wobj, double delta_time);
+void world_object_check_colissions(void* victim, va_list ap);
 void world_simulate(world_t* world);
 void world_object_fn_simulate_call(void* object, va_list ap);
 void world_object_fn_render_call(void* object, va_list ap);

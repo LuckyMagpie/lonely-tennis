@@ -86,6 +86,19 @@ void world_object_apply_forces(world_object_t* wobj, double delta_time)
     glm_vec_add(wobj->translate, old_velocity, wobj->translate);
 }
 
+void world_object_check_colissions(void* victim, va_list ap)
+{
+    world_object_t* perp = va_arg(ap, world_object_t*);
+
+    if (perp == victim ) {
+        return;
+    }
+
+    if (colission_test_intersection_bounding_volume(perp->bounding_volume, ((world_object_t*)victim)->bounding_volume)) {
+        //TODO
+    }
+}
+
 void world_object_fn_render_call(void* object, va_list ap)
 {
     graphics_t* graphics = va_arg(ap, graphics_t*);
@@ -95,16 +108,17 @@ void world_object_fn_render_call(void* object, va_list ap)
 void world_object_fn_simulate_call(void* object, va_list ap)
 {
     double delta_time = va_arg(ap, double);
+    vector_t* colission_victims = va_arg(ap, vector_t*);
     world_object_t* wobj = (world_object_t*)object;
 
     if (wobj->fn_simulate != NULL) {
-        wobj->fn_simulate(wobj, delta_time);
+        wobj->fn_simulate(wobj, delta_time, colission_victims);
     }
 }
 
 void world_simulate(world_t* world)
 {
-    vector_foreach(world->world_objects, &world_object_fn_simulate_call, world_current_delta_time(world));
+    vector_foreach(world->world_objects, &world_object_fn_simulate_call, world_current_delta_time(world), world->world_objects);
 }
 
 void world_object_free(void* object, va_list _)
