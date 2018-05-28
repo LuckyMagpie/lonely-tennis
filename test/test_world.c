@@ -181,6 +181,7 @@ int main(void)
     SRunner* sr = srunner_create(suite);
     int nf;
 
+    srunner_set_fork_status(sr, CK_NOFORK);
     srunner_run_all(sr, CK_VERBOSE);
     nf = srunner_ntests_failed(sr);
     srunner_free(sr);
