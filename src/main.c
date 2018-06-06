@@ -1,10 +1,10 @@
 #include <cglm/cglm.h>
 
-#include "wall.h"
-#include "world.h"
-#include "graphics.h"
-#include "game.h"
+#include "engine/world.h"
+#include "engine/graphics.h"
 #include "utils/vector.h"
+#include "wall.h"
+#include "game.h"
 
 int main()
 {

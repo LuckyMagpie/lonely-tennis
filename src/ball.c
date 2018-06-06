@@ -6,9 +6,9 @@
 
 #include "utils/mesh.h"
 #include "utils/vector.h"
-#include "colission.h"
-#include "render.h"
-#include "world.h"
+#include "engine/colission.h"
+#include "engine/render.h"
+#include "engine/world.h"
 #include "ball.h"
 
 world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate, vec3 velocity)

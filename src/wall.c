@@ -4,9 +4,9 @@
 #include <cglm/cglm.h>
 
 #include "utils/mesh.h"
-#include "colission.h"
-#include "render.h"
-#include "world.h"
+#include "engine/colission.h"
+#include "engine/render.h"
+#include "engine/world.h"
 #include "wall.h"
 
 world_object_t* wall_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate)

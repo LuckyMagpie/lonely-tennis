@@ -7,7 +7,7 @@
 #include <cglm/cglm.h>
 
 #include "utils/vector.h"
-#include "world.h"
+#include "engine/world.h"
 
 bool model_matrix_eq(float* model_matrix1, float* model_matrix2)
 {

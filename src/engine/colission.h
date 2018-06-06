@@ -5,6 +5,8 @@
 
 #include <cglm/cglm.h>
 
+#include "utils/vector.h"
+
 typedef enum {
     OBB,
     SPHERE
