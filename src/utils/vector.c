@@ -1,6 +1,6 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "vector.h"
 
@@ -54,7 +54,7 @@ void* vector_pop(vector_t* vector)
     return NULL;
 }
 
-void vector_pop_loop(vector_t* vector,void (*fp) (void*, va_list ap), ...)
+void vector_pop_loop(vector_t* vector, void (*fp)(void*, va_list ap), ...)
 {
     va_list ap;
     void* obj;
@@ -65,7 +65,7 @@ void vector_pop_loop(vector_t* vector,void (*fp) (void*, va_list ap), ...)
     }
 }
 
-void vector_foreach(vector_t* vector, void (*fp) (void*, va_list ap), ...)
+void vector_foreach(vector_t* vector, void (*fp)(void*, va_list ap), ...)
 {
     va_list ap;
 
@@ -87,7 +87,8 @@ void vector_generic_item_free(void* obj, va_list _)
     free(obj);
 }
 
-void vector_free(vector_t* vector) {
+void vector_free(vector_t* vector)
+{
     free(vector->items);
     free(vector);
 }

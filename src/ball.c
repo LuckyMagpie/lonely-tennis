@@ -4,12 +4,12 @@
 
 #include <cglm/cglm.h>
 
-#include "utils/mesh.h"
-#include "utils/vector.h"
+#include "ball.h"
 #include "engine/colission.h"
 #include "engine/render.h"
 #include "engine/world.h"
-#include "ball.h"
+#include "utils/mesh.h"
+#include "utils/vector.h"
 
 world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate, vec3 velocity)
 {
@@ -49,4 +49,3 @@ void ball_simulate(world_object_t* ball, double delta_time, vector_t* colission_
     world_object_update_model_matrix(ball);
     colission_update_bounding_sphere_center(ball->bounding_volume->data, ball->model_matrix);
 }
-

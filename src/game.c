@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
 
-#include "engine/world.h"
 #include "engine/graphics.h"
 #include "engine/render.h"
+#include "engine/world.h"
 #include "game.h"
 
 void run_loop(world_t* world, graphics_t* graphics)

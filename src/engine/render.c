@@ -5,10 +5,10 @@
 #include <SDL2/SDL.h>
 #include <cglm/cglm.h>
 
-#include "utils/vector.h"
 #include "graphics.h"
-#include "world.h"
 #include "render.h"
+#include "utils/vector.h"
+#include "world.h"
 
 void render_world(world_t* world, graphics_t* graphics)
 {
@@ -63,5 +63,5 @@ void render_generic_object_draw(world_object_t* object, graphics_t* graphics)
     glm_mat4_mul(graphics->vp, object->model_matrix, MVP);
     glUniformMatrix4fv(graphics->program_mvp_id, 1, GL_FALSE, MVP[0]);
 
-    glDrawArrays(GL_TRIANGLES, 0, object->vertices->size/3);
+    glDrawArrays(GL_TRIANGLES, 0, object->vertices->size / 3);
 }

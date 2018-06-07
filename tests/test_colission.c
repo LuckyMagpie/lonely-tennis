@@ -1,10 +1,10 @@
 #include <stdbool.h>
 
-#include <check.h>
 #include <cglm/cglm.h>
+#include <check.h>
 
-#include "utils/vector.h"
 #include "engine/colission.h"
+#include "utils/vector.h"
 
 bool array_eq(float* arr1, float* arr2, int size)
 {
@@ -47,7 +47,6 @@ bounding_volume_t* make_bounding_sphere(vec3 scale, vec3 translate, vec3 rotate_
 
     free(vertices);
     return bounding_volume;
-
 }
 
 bounding_volume_t* make_bounding_obb(vec3 scale, vec3 translate, vec3 rotate_axis, float rotate_angle)
@@ -70,7 +69,7 @@ START_TEST(test_colission_init_bounding_obb)
 {
     vec3 scale = { 2.0f, 2.0f, 2.0f };
     vec3 translate = { 2.0f, 2.0f, 2.0f };
-    vec3 rotate_axis = { 0.0f, 1.0f, 0.0f};
+    vec3 rotate_axis = { 0.0f, 1.0f, 0.0f };
     float rotate_angle = 20.0f;
 
     bounding_volume_t* bounding_volume = make_bounding_obb(scale, translate, rotate_axis, rotate_angle);
@@ -85,7 +84,7 @@ START_TEST(test_colission_init_bounding_obb)
 
     ck_assert_msg(bounding_volume != NULL, "Failed to init bounding_volume");
     ck_assert_msg(bounding_volume->data != NULL, "Failed to init bounding_obb");
-    ck_assert_msg(bounding_volume->kind == OBB , "Bounding volume should have OBB kind");
+    ck_assert_msg(bounding_volume->kind == OBB, "Bounding volume should have OBB kind");
     ck_assert_msg(array_eq(obb->center, center, 3), "Bounding obb should have 2, 2, 2 center");
     ck_assert_msg(array_eq(obb->extents, extents, 3), "Bounding obb should have 2, 2, 0 extents");
     ck_assert_msg(array_eq(obb->rotation_matrix[0], mat3_rotation_matrix[0], 9), "Bounding obb has wrong rotation_matrix");
@@ -98,7 +97,7 @@ START_TEST(test_colission_init_bounding_sphere)
 {
     vec3 scale = { 2.0f, 2.0f, 2.0f };
     vec3 translate = { 2.0f, 2.0f, 2.0f };
-    vec3 rotate_axis = { 0.0f, 1.0f, 0.0f};
+    vec3 rotate_axis = { 0.0f, 1.0f, 0.0f };
     float rotate_angle = 20.0f;
 
     bounding_volume_t* bounding_volume = make_bounding_sphere(scale, translate, rotate_axis, rotate_angle);
@@ -110,7 +109,7 @@ START_TEST(test_colission_init_bounding_sphere)
 
     ck_assert_msg(bounding_volume != NULL, "Failed to init bounding_volume");
     ck_assert_msg(bounding_volume->data != NULL, "Failed to init bounding_sphere");
-    ck_assert_msg(bounding_volume->kind == SPHERE , "Bounding volume should have SPHERE kind");
+    ck_assert_msg(bounding_volume->kind == SPHERE, "Bounding volume should have SPHERE kind");
     ck_assert_msg(array_eq(sphere->center, center, 3), "Bounding sphere should have 2, 2, 2 center");
     ck_assert_msg(array_eq(sphere->local_center, local_center, 3), "Bounding sphere should have 0, 0, 0 local center");
     ck_assert_msg(sphere->radius == radius, "Bounding sphere should have 2.0 radius got %f", sphere->radius);
@@ -123,7 +122,7 @@ START_TEST(test_colission_update_bounding_sphere_center)
 {
     vec3 scale = { 2.0f, 2.0f, 2.0f };
     vec3 translate = { 2.0f, 2.0f, 2.0f };
-    vec3 rotate_axis = { 0.0f, 1.0f, 0.0f};
+    vec3 rotate_axis = { 0.0f, 1.0f, 0.0f };
     float rotate_angle = 20.0f;
 
     bounding_volume_t* bounding_volume = make_bounding_sphere(scale, translate, rotate_axis, rotate_angle);
@@ -152,12 +151,12 @@ START_TEST(test_colission_test_intersection_sphere_sphere_miss)
 {
     vec3 sphere1_scale = { 1.0f, 1.0f, 1.0f };
     vec3 sphere1_translate = { 0.0f, 0.0f, 0.0f };
-    vec3 sphere1_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 sphere1_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float sphere1_rotate_angle = 0.0f;
 
     vec3 sphere2_scale = { 1.0f, 1.0f, 1.0f };
     vec3 sphere2_translate = { 10.0f, 10.0f, 10.0f };
-    vec3 sphere2_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 sphere2_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float sphere2_rotate_angle = 0.0f;
 
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere1_scale, sphere1_translate, sphere1_rotate_axis, sphere1_rotate_angle);
@@ -174,12 +173,12 @@ START_TEST(test_colission_test_intersection_sphere_sphere_collide)
 {
     vec3 sphere1_scale = { 1.0f, 1.0f, 1.0f };
     vec3 sphere1_translate = { 0.0f, 0.0f, 0.0f };
-    vec3 sphere1_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 sphere1_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float sphere1_rotate_angle = 0.0f;
 
     vec3 sphere2_scale = { 100.0f, 100.0f, 100.0f };
     vec3 sphere2_translate = { 10.0f, 10.0f, 10.0f };
-    vec3 sphere2_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 sphere2_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float sphere2_rotate_angle = 0.0f;
 
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere1_scale, sphere1_translate, sphere1_rotate_axis, sphere1_rotate_angle);
@@ -196,12 +195,12 @@ START_TEST(test_colission_test_intersection_sphere_obb_miss)
 {
     vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
     vec3 sphere_translate = { 0.0f, 0.0f, 0.0f };
-    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float sphere_rotate_angle = 0.0f;
 
     vec3 obb_scale = { 1.0f, 1.0f, 1.0f };
     vec3 obb_translate = { 10.0f, 10.0f, 10.0f };
-    vec3 obb_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 obb_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float obb_rotate_angle = 0.0f;
 
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
@@ -218,12 +217,12 @@ START_TEST(test_colission_test_intersection_sphere_obb_collide)
 {
     vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
     vec3 sphere_translate = { 0.0f, 0.0f, 0.0f };
-    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float sphere_rotate_angle = 0.0f;
 
     vec3 obb_scale = { 100.0f, 100.0f, 100.0f };
     vec3 obb_translate = { 10.0f, 10.0f, 0.0f };
-    vec3 obb_rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 obb_rotate_axis = { 0.0f, 0.0f, 0.0f };
     float obb_rotate_angle = 0.0f;
 
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
@@ -240,7 +239,7 @@ START_TEST(test_colission_query_closest_point_obb)
 {
     vec3 scale = { 1.0f, 1.0f, 1.0f };
     vec3 translate = { 0.0f, 0.0f, 0.0f };
-    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f};
+    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f };
     float rotate_angle = 0.0f;
     vec3 point = { 2.0f, -1.0f, 0.0f };
     vec3 closest_point;

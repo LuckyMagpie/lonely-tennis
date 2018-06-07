@@ -1,8 +1,8 @@
 #include <cglm/cglm.h>
 
+#include "colission.h"
 #include "utils/mesh.h"
 #include "utils/vector.h"
-#include "colission.h"
 
 bounding_volume_t* colission_init_bounding_obb(dumb_opengl_vector_t* vertices, mat4 model_matrix, vec3 scale, vec3 rotate_axis, float rotate_angle)
 {
@@ -92,9 +92,12 @@ bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, boundi
 bool colission_test_intersection_bounding_volume(bounding_volume_t* perp, bounding_volume_t* victim)
 {
     switch (perp->kind) {
-        case SPHERE: return sphere_jmp_table[victim->kind](perp->data, victim->data);
-        case OBB: return false; //TODO
-        default: return false;
+    case SPHERE:
+        return sphere_jmp_table[victim->kind](perp->data, victim->data);
+    case OBB:
+        return false; //TODO
+    default:
+        return false;
     }
 }
 

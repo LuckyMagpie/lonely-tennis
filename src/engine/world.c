@@ -1,12 +1,12 @@
-#include <stdlib.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
-#include <cglm/cglm.h>
 #include <SDL2/SDL.h>
+#include <cglm/cglm.h>
 
+#include "colission.h"
 #include "render.h"
 #include "utils/vector.h"
-#include "colission.h"
 #include "world.h"
 
 world_t* world_init()
@@ -56,7 +56,7 @@ void world_object_add_force(world_object_t* wobj, vec3 force)
 
 void world_object_add_gravity(world_object_t* wobj)
 {
-    vec3 gravity = {0.0f, -9.8f, 0.0f};
+    vec3 gravity = { 0.0f, -9.8f, 0.0f };
     world_object_add_force(wobj, gravity);
 }
 
@@ -90,7 +90,7 @@ void world_object_check_colissions(void* victim, va_list ap)
 {
     world_object_t* perp = va_arg(ap, world_object_t*);
 
-    if (perp == victim ) {
+    if (perp == victim) {
         return;
     }
 
@@ -148,4 +148,3 @@ void world_free(world_t* world)
     vector_free(world->world_objects);
     free(world);
 }
-

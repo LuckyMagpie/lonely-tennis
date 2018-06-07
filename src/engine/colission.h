@@ -39,8 +39,8 @@ bool colission_test_intersection_bounding_volume(bounding_volume_t* perp, boundi
 void colission_free_bounding_volume(bounding_volume_t* bounding_volume);
 
 static bool (*sphere_jmp_table[])(void*, void*) = {
-    (bool (*) (void*, void*))&colission_test_intersection_sphere_obb,
-    (bool (*) (void*, void*))&colission_test_intersection_sphere_sphere
+    (bool (*)(void*, void*)) & colission_test_intersection_sphere_obb,
+    (bool (*)(void*, void*)) & colission_test_intersection_sphere_sphere
 };
 
 #endif /* ifndef COLISSION_H */

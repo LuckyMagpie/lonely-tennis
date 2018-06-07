@@ -1,8 +1,8 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "world.h"
 #include "graphics.h"
+#include "world.h"
 
 void render_world(world_t* world, graphics_t* graphics);
 void render_vertex_objects_init(world_object_t* object);

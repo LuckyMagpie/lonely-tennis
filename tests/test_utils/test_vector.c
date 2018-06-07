@@ -33,8 +33,7 @@ START_TEST(test_vector_push_back_resize)
     unsigned int old_max_size = vector->max_size;
     int test_value = 5;
 
-
-    for(int i = 0; i < 15; i++) {
+    for (int i = 0; i < 15; i++) {
         vector_push_back(vector, &test_value);
     }
 

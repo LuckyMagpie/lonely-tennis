@@ -7,9 +7,9 @@
 #include <GL/glew.h>
 #include <cglm/cglm.h>
 
-#include "utils/vector.h"
-#include "graphics.h"
 #include "colission.h"
+#include "graphics.h"
+#include "utils/vector.h"
 
 #define SIMULATION_SPEED 100.0
 
@@ -20,7 +20,7 @@ typedef enum {
     WORLD_HIT_CHANCE,
     WORLD_GAME_OVER,
     WORLD_QUIT
-} game_states_t ;
+} game_states_t;
 
 typedef struct world_object_t {
     mat4 model_matrix;
@@ -33,8 +33,8 @@ typedef struct world_object_t {
     dumb_opengl_vector_t* normals;
     vector_t* forces;
     bounding_volume_t* bounding_volume;
-    void (*fn_render) (struct world_object_t*, graphics_t*);
-    void (*fn_simulate) (struct world_object_t*, double, vector_t*);
+    void (*fn_render)(struct world_object_t*, graphics_t*);
+    void (*fn_simulate)(struct world_object_t*, double, vector_t*);
     GLuint vbos[3];
     GLuint vao;
     float rotate_angle;

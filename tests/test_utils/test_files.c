@@ -14,7 +14,6 @@ START_TEST(test_files_to_str)
 }
 END_TEST
 
-
 Suite* files_suit()
 {
     Suite* suite = suite_create("files");

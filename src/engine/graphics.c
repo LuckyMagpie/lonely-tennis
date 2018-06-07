@@ -1,6 +1,6 @@
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <signal.h>
 
 #define GL3_PROTOTYPES 1
 #include <GL/glew.h>
@@ -42,7 +42,7 @@ bool compile_shader(GLuint shader_id, const char* shader_code)
     if (compile_result == GL_FALSE) {
         int log_len;
         glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &log_len);
-        char error_log[log_len+1];
+        char error_log[log_len + 1];
         glGetShaderInfoLog(shader_id, log_len, NULL, error_log);
         fprintf(stderr, "%s:Unable to compile shader: %s\n", __func__, error_log);
     }
@@ -71,7 +71,7 @@ GLuint create_shader_program(const char* vertex_filepath, const char* fragment_f
 
     GLuint program_id = glCreateProgram();
     glAttachShader(program_id, vertex_shader_id);
-    glAttachShader(program_id,fragment_shader_id);
+    glAttachShader(program_id, fragment_shader_id);
     glLinkProgram(program_id);
 
     GLint link_result = GL_FALSE;
@@ -79,7 +79,7 @@ GLuint create_shader_program(const char* vertex_filepath, const char* fragment_f
     if (link_result == GL_FALSE) {
         int log_len;
         glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &log_len);
-        char error_log[log_len+1];
+        char error_log[log_len + 1];
         glGetProgramInfoLog(program_id, log_len, NULL, error_log);
         fprintf(stderr, "%s:Unable to link program: %s\n", __func__, error_log);
 
@@ -100,8 +100,8 @@ GLuint create_shader_program(const char* vertex_filepath, const char* fragment_f
 graphics_t* graphics_init()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-       fprintf(stderr, "%s:Unable to initialize SDL: %s\n", __func__, SDL_GetError());
-       return NULL;
+        fprintf(stderr, "%s:Unable to initialize SDL: %s\n", __func__, SDL_GetError());
+        return NULL;
     }
 
     set_sdl_attrs();
@@ -110,8 +110,8 @@ graphics_t* graphics_init()
         SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
 
     if (!window) {
-       fprintf(stderr, "%s:Unable to create window: %s\n", __func__, SDL_GetError());
-       return NULL;
+        fprintf(stderr, "%s:Unable to create window: %s\n", __func__, SDL_GetError());
+        return NULL;
     }
 
     SDL_GLContext* context = SDL_GL_CreateContext(window);
@@ -122,12 +122,12 @@ graphics_t* graphics_init()
     graphics->window = window;
     graphics->context = context;
 
-    vec3 eye = {0.0f, 0.0f, 5.0f};
-    vec3 center = {0.0f, 0.0f, 0.0f};
-    vec3 up = {0.0f, 1.0f, 0.0f};
+    vec3 eye = { 0.0f, 0.0f, 5.0f };
+    vec3 center = { 0.0f, 0.0f, 0.0f };
+    vec3 up = { 0.0f, 1.0f, 0.0f };
     glm_lookat(eye, center, up, graphics->view);
 
-    glm_perspective(glm_rad(90.0f), 4.0f/3.0f, 0.1f, 100.0f, graphics->projection);
+    glm_perspective(glm_rad(90.0f), 4.0f / 3.0f, 0.1f, 100.0f, graphics->projection);
 
     glm_mat4_mul(graphics->projection, graphics->view, graphics->vp);
 

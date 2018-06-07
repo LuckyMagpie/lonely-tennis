@@ -1,20 +1,20 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
 #include <cglm/cglm.h>
 
-#include "vector.h"
 #include "mesh.h"
+#include "vector.h"
 
 bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vector_t** uvs, dumb_opengl_vector_t** normals)
 {
-   FILE* file = fopen(path, "rb");
+    FILE* file = fopen(path, "rb");
 
     if (!file) {
-       fprintf(stderr, "%s:File not found %s", __func__, path);
-       return false;
+        fprintf(stderr, "%s:File not found %s", __func__, path);
+        return false;
     }
 
     char flag[3];
@@ -25,8 +25,8 @@ bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vec
     vector_t* normal_indices = vector_init();
     vector_t* vertex_indices = vector_init();
 
-    while(fscanf(file, "%2s", flag) != EOF) {
-        if (strcmp(flag, "v") == 0)  {
+    while (fscanf(file, "%2s", flag) != EOF) {
+        if (strcmp(flag, "v") == 0) {
             float* vertex = malloc(sizeof(float) * 3);
             fscanf(file, "%f %f %f\n", &vertex[0], &vertex[1], &vertex[2]);
             vector_push_back(tmp_vertices, vertex);
@@ -35,7 +35,7 @@ bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vec
             fscanf(file, "%f %f\n", &uv[0], &uv[1]);
             vector_push_back(tmp_uvs, uv);
         } else if (strcmp(flag, "vn") == 0) {
-            float* normal  = malloc(sizeof(float) * 3);
+            float* normal = malloc(sizeof(float) * 3);
             fscanf(file, "%f %f %f\n", &normal[0], &normal[1], &normal[2]);
             vector_push_back(tmp_normals, normal);
         } else if (strcmp(flag, "f") == 0) {
@@ -60,7 +60,7 @@ bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vec
                 vector_push_back(normal_indices, normal_i);
             }
         } else {
-           fscanf(file, "%*[^\n]\n", NULL);
+            fscanf(file, "%*[^\n]\n", NULL);
         }
     }
 
@@ -68,27 +68,27 @@ bool load_obj(const char* path, dumb_opengl_vector_t** vertices, dumb_opengl_vec
 
     *vertices = dumb_opengl_vector_init(vertex_indices->size * 3);
     *uvs = dumb_opengl_vector_init(uv_indices->size * 2);
-    *normals  = dumb_opengl_vector_init(normal_indices->size * 3);
+    *normals = dumb_opengl_vector_init(normal_indices->size * 3);
 
     for (unsigned int i = 0; i < vertex_indices->size; i++) {
         unsigned int vertex_index = *(unsigned int*)vector_get(vertex_indices, i);
         unsigned int uv_index = *(unsigned int*)vector_get(uv_indices, i);
         unsigned int normal_index = *(unsigned int*)vector_get(normal_indices, i);
 
-        float* vertex = vector_get(tmp_vertices, vertex_index-1);
-        float* uv = vector_get(tmp_uvs, uv_index-1);
-        float* normal = vector_get(tmp_normals, normal_index-1);
+        float* vertex = vector_get(tmp_vertices, vertex_index - 1);
+        float* uv = vector_get(tmp_uvs, uv_index - 1);
+        float* normal = vector_get(tmp_normals, normal_index - 1);
 
-        (*vertices)->items[3*i + 0] = vertex[0];
-        (*vertices)->items[3*i + 1] = vertex[1];
-        (*vertices)->items[3*i + 2] = vertex[2];
+        (*vertices)->items[3 * i + 0] = vertex[0];
+        (*vertices)->items[3 * i + 1] = vertex[1];
+        (*vertices)->items[3 * i + 2] = vertex[2];
 
-        (*uvs)->items[2*i + 0] = uv[0];
-        (*uvs)->items[2*i + 1] = uv[1];
+        (*uvs)->items[2 * i + 0] = uv[0];
+        (*uvs)->items[2 * i + 1] = uv[1];
 
-        (*normals)->items[3*i + 0] = normal[0];
-        (*normals)->items[3*i + 1] = normal[1];
-        (*normals)->items[3*i + 2] = normal[2];
+        (*normals)->items[3 * i + 0] = normal[0];
+        (*normals)->items[3 * i + 1] = normal[1];
+        (*normals)->items[3 * i + 2] = normal[2];
     }
 
     vector_foreach(tmp_uvs, &vector_generic_item_free);
@@ -149,9 +149,9 @@ void mesh_find_center(dumb_opengl_vector_t* vertices, vec3 center)
     vec3 min;
 
     mesh_find_maxmin(vertices, max, min);
-    center[0] = (max[0] + min[0])/2;
-    center[1] = (max[1] + min[1])/2;
-    center[2] = (max[2] + min[2])/2;
+    center[0] = (max[0] + min[0]) / 2;
+    center[1] = (max[1] + min[1]) / 2;
+    center[2] = (max[2] + min[2]) / 2;
 }
 
 void mesh_find_extents(dumb_opengl_vector_t* vertices, vec3 extents)
@@ -160,7 +160,7 @@ void mesh_find_extents(dumb_opengl_vector_t* vertices, vec3 extents)
     vec3 min;
 
     mesh_find_maxmin(vertices, max, min);
-    extents[0] = (max[0] - min[0])/2;
-    extents[1] = (max[1] - min[1])/2;
-    extents[2] = (max[2] - min[2])/2;
+    extents[0] = (max[0] - min[0]) / 2;
+    extents[1] = (max[1] - min[1]) / 2;
+    extents[2] = (max[2] - min[2]) / 2;
 }

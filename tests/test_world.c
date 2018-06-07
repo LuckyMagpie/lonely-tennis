@@ -1,13 +1,13 @@
-#include <unistd.h>
 #include <math.h>
-#include <stdbool.h>
 #include <stdarg.h>
+#include <stdbool.h>
+#include <unistd.h>
 
-#include <check.h>
 #include <cglm/cglm.h>
+#include <check.h>
 
-#include "utils/vector.h"
 #include "engine/world.h"
+#include "utils/vector.h"
 
 bool model_matrix_eq(float* model_matrix1, float* model_matrix2)
 {
@@ -60,16 +60,16 @@ END_TEST
 START_TEST(test_world_object_update_model_matrix)
 {
     mat4 model_matrix = {
-        {2.0f, 0.0f, 0.0f, 0.0f},
-        {0.0f, 2.0f, 0.0f, 0.0f},
-        {0.0f, 0.0f, 2.0f, 0.0f},
-        {5.0f, 5.0f, 5.0f, 1.0f}
+        { 2.0f, 0.0f, 0.0f, 0.0f },
+        { 0.0f, 2.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 2.0f, 0.0f },
+        { 5.0f, 5.0f, 5.0f, 1.0f }
     };
 
-    vec3 scale = {2.0f, 2.0f, 2.0f};
+    vec3 scale = { 2.0f, 2.0f, 2.0f };
     float rotate_angle = 360.0f;
-    vec3 rotate_axis = {0.0f, 0.0f, 1.0f};
-    vec3 translate = {5.0f, 5.0f, 5.0f};
+    vec3 rotate_axis = { 0.0f, 0.0f, 1.0f };
+    vec3 translate = { 5.0f, 5.0f, 5.0f };
     world_object_t* wobj = malloc(sizeof(world_object_t));
 
     glm_vec_copy(scale, wobj->scale);
