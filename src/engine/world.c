@@ -149,6 +149,7 @@ void world_object_free(void* object, va_list _)
     }
 
     render_vertex_objects_free(wobj);
+    free(wobj);
 }
 
 void world_free(world_t* world)
