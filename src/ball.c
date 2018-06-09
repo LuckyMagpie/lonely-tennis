@@ -37,6 +37,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     ball->fn_render = &render_generic_object_draw;
     ball->forces = vector_init();
     ball->fn_simulate = &ball_simulate;
+    ball->fn_resolve_colission = NULL;
 
     return ball;
 }
