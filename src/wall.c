@@ -7,6 +7,7 @@
 #include "engine/render.h"
 #include "engine/world.h"
 #include "utils/mesh.h"
+#include "utils/vec_math.h"
 #include "wall.h"
 
 world_object_t* wall_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3 translate)
@@ -32,8 +33,24 @@ world_object_t* wall_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     wall->bounding_volume = colission_init_bounding_obb(wall->vertices, wall->model_matrix, wall->scale, wall->rotate_axis, wall->rotate_angle);
 
     wall->fn_render = &render_generic_object_draw;
+    wall->fn_resolve_colission = &wall_resolve_colission;
     wall->fn_simulate = NULL;
     wall->forces = NULL;
 
     return wall;
+}
+
+void wall_resolve_colission(world_object_t* wall, world_object_t* opponent)
+{
+    if (opponent->bounding_volume->kind == SPHERE) {
+        bounding_sphere_t* bounding_sphere = (bounding_sphere_t*)opponent->bounding_volume->data;
+
+        vec3 colission_point;
+        vec3 normal;
+        colission_query_closest_point_obb(wall->bounding_volume->data, bounding_sphere->center, colission_point);
+        glm_vec_sub(bounding_sphere->center, colission_point, normal);
+        glm_vec_normalize(normal);
+
+        vec3_bounce(opponent->velocity, normal, 1.0f, opponent->velocity);
+    }
 }
