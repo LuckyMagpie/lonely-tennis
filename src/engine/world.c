@@ -47,11 +47,13 @@ void world_object_update_model_matrix(world_object_t* wobj)
 
 void world_object_add_force(world_object_t* wobj, vec3 force)
 {
-    float* f = malloc(sizeof(vec3));
+    if (wobj->forces != NULL) {
+        float* f = malloc(sizeof(vec3));
 
-    glm_vec_copy(force, f);
+        glm_vec_copy(force, f);
 
-    vector_push_back(wobj->forces, f);
+        vector_push_back(wobj->forces, f);
+    }
 }
 
 void world_object_add_gravity(world_object_t* wobj)
