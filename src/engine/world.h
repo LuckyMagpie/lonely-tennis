@@ -11,7 +11,7 @@
 #include "graphics.h"
 #include "utils/vector.h"
 
-#define SIMULATION_SPEED 100.0
+#define SIMULATION_SPEED 500.0
 
 typedef enum {
     WORLD_IN_START_MENU,

@@ -122,8 +122,8 @@ graphics_t* graphics_init()
     graphics->window = window;
     graphics->context = context;
 
-    vec3 eye = { 0.0f, 0.0f, 5.0f };
-    vec3 center = { 0.0f, 0.0f, 0.0f };
+    vec3 eye = { 2.0f, 2.0f, 5.0f };
+    vec3 center = { 0.0f, 2.0f, 0.0f };
     vec3 up = { 0.0f, 1.0f, 0.0f };
     glm_lookat(eye, center, up, graphics->view);
 
