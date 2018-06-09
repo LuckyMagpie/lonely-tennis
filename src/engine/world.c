@@ -88,16 +88,23 @@ void world_object_apply_forces(world_object_t* wobj, double delta_time)
     glm_vec_add(wobj->translate, old_velocity, wobj->translate);
 }
 
-void world_object_check_colissions(void* victim, va_list ap)
+void world_object_check_colissions(void* victim_obj, va_list ap)
 {
     world_object_t* perp = va_arg(ap, world_object_t*);
+    world_object_t* victim = (world_object_t*)victim_obj;
 
     if (perp == victim) {
         return;
     }
 
-    if (colission_test_intersection_bounding_volume(perp->bounding_volume, ((world_object_t*)victim)->bounding_volume)) {
-        //TODO
+    if (colission_test_intersection_bounding_volume(perp->bounding_volume, victim->bounding_volume)) {
+        if (perp->fn_resolve_colission != NULL) {
+            perp->fn_resolve_colission(perp, victim);
+        }
+
+        if (victim->fn_resolve_colission != NULL) {
+            victim->fn_resolve_colission(victim, perp);
+        }
     }
 }
 
