@@ -23,6 +23,7 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     }
 
     render_vertex_objects_init(ball);
+    render_texture_init(ball, "assets/ball_texture.png");
 
     glm_vec_copy(scale, ball->scale);
     glm_vec_copy(rotate_axis, ball->rotate_axis);
