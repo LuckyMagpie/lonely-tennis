@@ -18,7 +18,7 @@ foreach(T ${TESTS})
             ${CHECK_INCLUDE_DIRS}
             ${PROJECT_SOURCE_DIR}/src
     )
-    target_link_libraries(${T} $<TARGET_FILE:engine> $<TARGET_FILE:utils> ${CHECK_LIBRARIES} m GL GLEW SDL2)
+    target_link_libraries(${T} $<TARGET_FILE:engine> $<TARGET_FILE:utils> ${CHECK_LIBRARIES} m GL GLEW SDL2 SDL2_image)
 
     add_test(${T} ${T})
 endforeach()

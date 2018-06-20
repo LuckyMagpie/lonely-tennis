@@ -17,6 +17,6 @@ target_compile_options(LonelyTennis
         $<$<CONFIG:RELEASE>:-Wall -Wpedantic -Wextra -Werror -std=c17 -O3 -ffast-math>
         $<$<CONFIG:DEBUG>:-Wall -Wpedantic -Wextra -std=c17 -ffast-math>)
 
-target_link_libraries(LonelyTennis $<TARGET_FILE:engine> $<TARGET_FILE:utils> m GL GLEW SDL2)
+target_link_libraries(LonelyTennis $<TARGET_FILE:engine> $<TARGET_FILE:utils> m GL GLEW SDL2 SDL2_image)
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

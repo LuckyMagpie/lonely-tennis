@@ -7,6 +7,7 @@ Little 3D game about one player tennis vs walls.
 - cmake
 - [cglm](https://github.com/recp/cglm)
 - SDL2
+- SDL2_image
 - OpenGL
 - glew
 - Testing
