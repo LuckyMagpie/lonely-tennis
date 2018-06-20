@@ -133,6 +133,7 @@ graphics_t* graphics_init()
 
     graphics->program_id = create_shader_program("assets/vertex_shader.glsl", "assets/fragment_shader.glsl");
     graphics->program_mvp_id = glGetUniformLocation(graphics->program_id, "MVP");
+    graphics->program_texture_sampler_id = glGetUniformLocation(graphics->program_id, "texture_sampler");
 
     return graphics;
 }

@@ -15,6 +15,7 @@ typedef struct graphics_t {
     SDL_Window* window;
     SDL_GLContext* context;
     GLuint program_id;
+    GLuint program_texture_sampler_id;
     GLuint program_mvp_id;
 } graphics_t;
 
