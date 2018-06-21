@@ -11,6 +11,7 @@
 #include "graphics.h"
 #include "utils/vector.h"
 
+#define MIN_DELTA_TIME 0.00002
 
 typedef enum {
     WORLD_IN_START_MENU,

@@ -32,6 +32,10 @@ double world_current_delta_time(world_t* world)
 
     delta_time = (double)(now - world->start_timer) / SDL_GetPerformanceFrequency();
 
+    if (delta_time > MIN_DELTA_TIME) {
+        delta_time = MIN_DELTA_TIME;
+    }
+
     return delta_time * world->simulation_speed;
 }
 
