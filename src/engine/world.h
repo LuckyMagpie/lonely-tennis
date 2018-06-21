@@ -11,7 +11,6 @@
 #include "graphics.h"
 #include "utils/vector.h"
 
-#define SIMULATION_SPEED 500.0
 
 typedef enum {
     WORLD_IN_START_MENU,
@@ -45,6 +44,7 @@ typedef struct world_object_t {
 typedef struct world_t {
     vector_t* world_objects;
     Uint64 start_timer;
+    float simulation_speed;
     unsigned int score;
     game_states_t state;
 } world_t;

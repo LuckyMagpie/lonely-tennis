@@ -8,6 +8,7 @@
 void run_loop(world_t* world, graphics_t* graphics)
 {
     world_start_timer(world);
+    world->simulation_speed = 600.0f;
 
     while (world->state != WORLD_QUIT) {
         SDL_Event event;

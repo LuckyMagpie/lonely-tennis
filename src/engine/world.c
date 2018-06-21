@@ -15,6 +15,7 @@ world_t* world_init()
     world->world_objects = vector_init();
     world->state = WORLD_IN_START_MENU;
     world->score = 0;
+    world->simulation_speed = 1.0f;
 
     return world;
 }
@@ -31,7 +32,7 @@ double world_current_delta_time(world_t* world)
 
     delta_time = (double)(now - world->start_timer) / SDL_GetPerformanceFrequency();
 
-    return delta_time * SIMULATION_SPEED;
+    return delta_time * world->simulation_speed;
 }
 
 void world_object_update_model_matrix(world_object_t* wobj)

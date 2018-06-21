@@ -27,6 +27,7 @@ START_TEST(test_world_init)
     ck_assert_msg(world != NULL, "Failed to init world");
     ck_assert_msg(world->state == WORLD_IN_START_MENU, "Expected WORLD_IN_START_MENU(0) state but got %d", world->state);
     ck_assert_msg(world->score == 0, "Expected score of 0 but got %d", world->score);
+    ck_assert_msg(world->simulation_speed == 1.0f, "Expected simulation speed of 1.0 but got %d", world->simulation_speed);
 
     world_free(world);
 }
