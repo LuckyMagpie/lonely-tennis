@@ -48,11 +48,24 @@ START_TEST(test_world_current_delta_time)
 {
     world_t* world = world_init();
     world_start_timer(world);
+
+    double delta = world_current_delta_time(world);
+
+    ck_assert_msg(delta >= (0.00000009) && delta <= (0.000009), "Expected delta to around 0.0000004 (a very small number that's not zero) seconds got %0.9f", delta);
+
+    world_free(world);
+}
+END_TEST
+
+START_TEST(test_world_current_delta_time_min)
+{
+    world_t* world = world_init();
+    world_start_timer(world);
     sleep(1);
 
     double delta = world_current_delta_time(world);
 
-    ck_assert_msg(delta >= (0.9 * SIMULATION_SPEED) && delta <= (1.1 * SIMULATION_SPEED), "Expected delta to around 1 second got %f", delta);
+    ck_assert_msg(delta == MIN_DELTA_TIME, "Expected delta to be MIN_DELTA_TIME when delta is too big got %f", delta);
 
     world_free(world);
 }
@@ -163,6 +176,7 @@ Suite* world_suite()
     TCase* tc2 = tcase_create("test_world_start_timer");
     tcase_add_test(tc2, test_world_start_timer);
     tcase_add_test(tc2, test_world_current_delta_time);
+    tcase_add_test(tc2, test_world_current_delta_time_min);
 
     TCase* tc3 = tcase_create("test_world_object");
     tcase_add_test(tc3, test_world_object_update_model_matrix);
