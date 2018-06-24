@@ -4,6 +4,11 @@
 #include "utils/mesh.h"
 #include "utils/vector.h"
 
+static bool (*const sphere_jmp_table[])(void*, void*) = {
+    (bool (*)(void*, void*)) & colission_test_intersection_sphere_obb,
+    (bool (*)(void*, void*)) & colission_test_intersection_sphere_sphere
+};
+
 bounding_volume_t* colission_init_bounding_obb(dumb_opengl_vector_t* vertices, mat4 model_matrix, vec3 scale, vec3 rotate_axis, float rotate_angle)
 {
     bounding_volume_t* bounding_volume = malloc(sizeof(bounding_volume_t));
