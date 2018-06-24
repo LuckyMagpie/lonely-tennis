@@ -4,7 +4,7 @@
 #include "graphics.h"
 #include "world.h"
 
-static const char* DEFAULT_TEXTURE = "assets/default_texture.png";
+#define DEFAULT_TEXTURE "assets/default_texture.png"
 
 void render_world(world_t* world, graphics_t* graphics);
 void render_vertex_objects_init(world_object_t* wobj);
