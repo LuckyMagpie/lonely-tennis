@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include <string.h>
 
-#define DEFAULT_MAX_SIZE 4
+#define DEFAULT_MAX_SIZE 0
 #define GROWTH_FACTOR 1.5
 
 typedef struct dumb_opengl_vector_t {
