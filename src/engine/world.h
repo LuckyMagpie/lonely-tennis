@@ -13,15 +13,6 @@
 
 #define MIN_DELTA_TIME 0.00002
 
-typedef enum {
-    WORLD_IN_START_MENU,
-    WORLD_GAME_START,
-    WORLD_IN_FLIGHT,
-    WORLD_HIT_CHANCE,
-    WORLD_GAME_OVER,
-    WORLD_QUIT
-} game_states_t;
-
 typedef struct world_object_t {
     mat4 model_matrix;
     vec3 scale;
@@ -47,7 +38,6 @@ typedef struct world_t {
     Uint64 start_timer;
     float simulation_speed;
     unsigned int score;
-    game_states_t state;
 } world_t;
 
 world_t* world_init(void);

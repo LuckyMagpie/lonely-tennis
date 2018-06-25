@@ -13,7 +13,6 @@ world_t* world_init()
 {
     world_t* world = malloc(sizeof(world_t));
     world->world_objects = vector_init();
-    world->state = WORLD_IN_START_MENU;
     world->score = 0;
     world->simulation_speed = 1.0f;
 
