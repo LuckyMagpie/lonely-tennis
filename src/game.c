@@ -2,33 +2,58 @@
 #include <cglm/cglm.h>
 
 #include "ball.h"
+#include "engine/executor.h"
 #include "engine/graphics.h"
 #include "engine/render.h"
 #include "engine/world.h"
 #include "game.h"
 #include "wall.h"
 
-void run_loop(world_t* world, graphics_t* graphics)
+void game_callbacks_init()
 {
-    world_start_timer(world);
-    world->simulation_speed = 600.0f;
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+    executor_set_callback(GAME_START, &game_start_callback);
+    executor_set_callback(IN_GAME, &game_in_game_callback);
+}
+
+void game_start_callback(world_t* world, graphics_t* graphics)
+{
     SDL_Event event;
-
-    while (world->state != WORLD_QUIT) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                world->state = WORLD_QUIT;
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_MOUSEBUTTONUP:
+            if (event.button.button == SDL_BUTTON_LEFT) {
+                executor_set_current_state(IN_GAME);
             }
+            break;
+        case SDL_QUIT:
+            executor_set_current_state(QUIT);
+            break;
         }
-
-        world_simulate(world);
-        render_world(world, graphics);
-        world_start_timer(world);
+        if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT) {
+            executor_set_current_state(IN_GAME);
+        }
     }
 
-    world_free(world);
-    graphics_free(graphics);
+    render_world(world, graphics);
+}
+
+void game_in_game_callback(world_t* world, graphics_t* graphics)
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_MOUSEBUTTONUP:
+            if (event.button.button == SDL_BUTTON_LEFT) {
+            }
+            break;
+        case SDL_QUIT:
+            executor_set_current_state(QUIT);
+        }
+    }
+
+    world_simulate(world);
+    render_world(world, graphics);
 }
 
 graphics_t* game_graphics_init()
