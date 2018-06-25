@@ -23,7 +23,7 @@ void set_opengl_attrs(void);
 void set_sdl_attrs(void);
 bool compile_shader(GLuint shader_id, const char* shader_code);
 GLuint create_shader_program(const char* vertex_filepath, const char* fragment_filepath);
-graphics_t* graphics_init(void);
+graphics_t* graphics_init(char* window_title, int window_width, int window_height, vec3 camera_position, vec3 camera_target, char* vertex_filepath, char* fragment_filepath);
 void graphics_free(graphics_t* graphics);
 
 #endif /* ifndef GRAPHICS_H */

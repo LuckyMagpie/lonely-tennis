@@ -97,7 +97,7 @@ GLuint create_shader_program(const char* vertex_filepath, const char* fragment_f
     return program_id;
 }
 
-graphics_t* graphics_init()
+graphics_t* graphics_init(char* window_title, int window_width, int window_height, vec3 camera_position, vec3 camera_target, char* vertex_filepath, char* fragment_filepath)
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         fprintf(stderr, "%s:Unable to initialize SDL: %s\n", __func__, SDL_GetError());
@@ -106,8 +106,8 @@ graphics_t* graphics_init()
 
     set_sdl_attrs();
 
-    SDL_Window* window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow(window_title, SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED, window_width, window_height, SDL_WINDOW_OPENGL);
 
     if (!window) {
         fprintf(stderr, "%s:Unable to create window: %s\n", __func__, SDL_GetError());
@@ -122,16 +122,14 @@ graphics_t* graphics_init()
     graphics->window = window;
     graphics->context = context;
 
-    vec3 eye = { 2.0f, 2.0f, 5.0f };
-    vec3 center = { 0.0f, 2.0f, 0.0f };
     vec3 up = { 0.0f, 1.0f, 0.0f };
-    glm_lookat(eye, center, up, graphics->view);
+    glm_lookat(camera_position, camera_target, up, graphics->view);
 
-    glm_perspective(glm_rad(90.0f), 4.0f / 3.0f, 0.1f, 100.0f, graphics->projection);
+    glm_perspective(glm_rad(90.0f), window_width / window_height, 0.1f, 100.0f, graphics->projection);
 
     glm_mat4_mul(graphics->projection, graphics->view, graphics->vp);
 
-    graphics->program_id = create_shader_program("assets/vertex_shader.glsl", "assets/fragment_shader.glsl");
+    graphics->program_id = create_shader_program(vertex_filepath, fragment_filepath);
     graphics->program_mvp_id = glGetUniformLocation(graphics->program_id, "MVP");
     graphics->program_texture_sampler_id = glGetUniformLocation(graphics->program_id, "texture_sampler");
 
