@@ -50,7 +50,7 @@ START_TEST(test_world_current_delta_time)
 
     double delta = world_current_delta_time(world);
 
-    ck_assert_msg(delta >= (0.00000009) && delta <= (0.000009), "Expected delta to around 0.0000004 (a very small number that's not zero) seconds got %0.9f", delta);
+    ck_assert_msg(delta > 0, "Expected delta to a very small number that's not zero got %0.9f", delta);
 
     world_free(world);
 }
