@@ -3,6 +3,7 @@ find_package(Check REQUIRED)
 set(TESTS
     "test_world"
     "test_colission"
+    "test_executor"
 )
 
 
