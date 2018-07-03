@@ -255,6 +255,91 @@ START_TEST(test_colission_query_closest_point_obb)
 }
 END_TEST
 
+START_TEST(test_colission_test_intersection_ray_sphere_intersects)
+{
+    vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
+    vec3 sphere_translate = { 0.0f, 0.0f, 10.0f };
+    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float sphere_rotate_angle = 0.0f;
+    bounding_volume_t* bounding_volume = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
+
+    vec3 point = { 0.0f, 0.0f, 0.0f };
+    vec3 direction = { 0.0f, 0.0f, 1.0f };
+
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "Ray should intersect sphere");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
+START_TEST(test_colission_test_intersection_ray_sphere_tangent)
+{
+    vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
+    vec3 sphere_translate = { 0.0f, 0.0f, 10.0f };
+    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float sphere_rotate_angle = 0.0f;
+    bounding_volume_t* bounding_volume = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
+
+    vec3 point = { 1.0f, 0.0f, 0.0f };
+    vec3 direction = { 0.0f, 0.0f, 1.0f };
+
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "Tangent ray should intersect sphere");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
+START_TEST(test_colission_test_intersection_ray_sphere_inside)
+{
+    vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
+    vec3 sphere_translate = { 0.0f, 0.0f, 0.0f };
+    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float sphere_rotate_angle = 0.0f;
+    bounding_volume_t* bounding_volume = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
+
+    vec3 point = { 0.0f, 0.0f, 0.0f };
+    vec3 direction = { 0.0f, 0.0f, 1.0f };
+
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "Ray starting inside of sphere should intersect");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
+START_TEST(test_colission_test_intersection_ray_sphere_miss)
+{
+    vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
+    vec3 sphere_translate = { 0.0f, 0.0f, 10.0f };
+    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float sphere_rotate_angle = 0.0f;
+    bounding_volume_t* bounding_volume = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
+
+    vec3 point = { 0.0f, 0.0f, 0.0f };
+    vec3 direction = { 0.0f, 0.0f, -1.0f };
+
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == false, "Ray should miss sphere");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
+START_TEST(test_colission_test_intersection_ray_sphere_false_intersection)
+{
+    vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
+    vec3 sphere_translate = { 0.0f, 0.0f, 0.0f };
+    vec3 sphere_rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float sphere_rotate_angle = 0.0f;
+    bounding_volume_t* bounding_volume = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
+
+    vec3 point = { 0.0f, 0.0f, 2.0f };
+    vec3 direction = { 0.0f, 0.0f, 1.0f };
+
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == false, "Ray starting outside of sphere and pointing away should miss");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
 Suite* colission_suite()
 {
     Suite* suite = suite_create("colission");
@@ -277,11 +362,19 @@ Suite* colission_suite()
     TCase* tc5 = tcase_create("test_colission_query_closest_point_obb");
     tcase_add_test(tc5, test_colission_query_closest_point_obb);
 
+    TCase* tc6 = tcase_create("test_colission_test_intersection_ray_sphere");
+    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_intersects);
+    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_tangent);
+    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_inside);
+    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_miss);
+    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_false_intersection);
+
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
     suite_add_tcase(suite, tc3);
     suite_add_tcase(suite, tc4);
     suite_add_tcase(suite, tc5);
+    suite_add_tcase(suite, tc6);
     return suite;
 }
 
