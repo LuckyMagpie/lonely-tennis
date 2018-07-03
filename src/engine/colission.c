@@ -94,11 +94,47 @@ bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, boundi
     return squared_distance <= radius_sum * radius_sum;
 }
 
+bool colission_test_intersection_ray_sphere(vec3 point, vec3 direction, bounding_sphere_t* sphere)
+{
+    vec3 distance;
+    glm_vec_sub(point, sphere->center, distance);
+
+    //Quadratic Formula
+    float c = glm_vec_dot(distance, distance) - sphere->radius * sphere->radius;
+    if (c <= 0.0f) {
+        return true;
+    }
+
+    float b = glm_vec_dot(distance, direction);
+    if (b > 0.0f) {
+        return false;
+    }
+
+    float discriminant = b * b - c;
+    if (discriminant < 0.0f) {
+        return false;
+    }
+
+    return true;
+}
+
 bool colission_test_intersection_bounding_volume(bounding_volume_t* perp, bounding_volume_t* victim)
 {
     switch (perp->kind) {
     case SPHERE:
         return sphere_jmp_table[victim->kind](perp->data, victim->data);
+    case OBB:
+        return false; //TODO
+    default:
+        return false;
+    }
+}
+
+bool colission_test_raycasting(vec3 point, vec3 direction, bounding_volume_t* victim)
+{
+    switch (victim->kind) {
+    case SPHERE:
+        return colission_test_intersection_ray_sphere(point, direction, victim->data);
     case OBB:
         return false; //TODO
     default:
