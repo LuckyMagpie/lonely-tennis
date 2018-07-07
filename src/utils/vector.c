@@ -7,7 +7,7 @@
 vector_t* vector_init()
 {
     vector_t* vector = malloc(sizeof(vector_t));
-    vector->items = malloc(sizeof(void*) * DEFAULT_MAX_SIZE);
+    vector->items = calloc(DEFAULT_MAX_SIZE, sizeof(void*));
     vector->max_size = DEFAULT_MAX_SIZE;
     vector->size = 0;
 
@@ -31,7 +31,7 @@ static inline void vector_resize(vector_t* vector, unsigned int new_size)
 void vector_push_back(vector_t* vector, void* item)
 {
     if (vector->size >= vector->max_size) {
-        vector_resize(vector, (vector->max_size * GROWTH_FACTOR) + 1);
+        vector_resize(vector, (unsigned int)(vector->max_size * GROWTH_FACTOR) + 1);
     }
 
     unsigned int i = vector->size;

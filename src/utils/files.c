@@ -16,7 +16,7 @@ char* file_to_str(const char* path)
     }
 
     fseek(file, 0, SEEK_END);
-    long file_size = ftell(file);
+    unsigned long file_size = (unsigned long)ftell(file);
     rewind(file);
 
     char* string = malloc(file_size + 1);

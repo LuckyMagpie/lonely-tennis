@@ -28,7 +28,7 @@ void executor_run(world_t* world, graphics_t* graphics)
     while (running) {
         if (current_state == QUIT) {
             running = false;
-        } else if (state_callbacks[current_state] != NULL) {
+        } else if (state_callbacks[current_state]) {
             state_callbacks[current_state](world, graphics);
         } else {
             const char* state_name_table[5] = { "IN_START_MENU", "GAME_START", "IN_GAME", "PAUSE", "GAME_OVER" };

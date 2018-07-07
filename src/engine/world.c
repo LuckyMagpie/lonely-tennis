@@ -51,7 +51,7 @@ void world_object_update_model_matrix(world_object_t* wobj)
 
 void world_object_add_force(world_object_t* wobj, vec3 force)
 {
-    if (wobj->forces != NULL) {
+    if (wobj->forces) {
         float* f = malloc(sizeof(vec3));
 
         glm_vec_copy(force, f);
@@ -102,11 +102,11 @@ void world_object_check_colissions(void* victim_obj, va_list ap)
     }
 
     if (colission_test_intersection_bounding_volume(perp->bounding_volume, victim->bounding_volume)) {
-        if (perp->fn_resolve_colission != NULL) {
+        if (perp->fn_resolve_colission) {
             perp->fn_resolve_colission(perp, victim);
         }
 
-        if (victim->fn_resolve_colission != NULL) {
+        if (victim->fn_resolve_colission) {
             victim->fn_resolve_colission(victim, perp);
         }
     }
@@ -124,7 +124,7 @@ void world_object_fn_simulate_call(void* object, va_list ap)
     vector_t* colission_victims = va_arg(ap, vector_t*);
     world_object_t* wobj = (world_object_t*)object;
 
-    if (wobj->fn_simulate != NULL) {
+    if (wobj->fn_simulate) {
         wobj->fn_simulate(wobj, delta_time, colission_victims);
     }
 }
@@ -143,12 +143,12 @@ void world_object_free(void* object, va_list _)
     free(wobj->uvs);
     free(wobj->normals);
 
-    if (wobj->forces != NULL) {
+    if (wobj->forces) {
         vector_foreach(wobj->forces, &vector_generic_item_free);
         vector_free(wobj->forces);
     }
 
-    if (wobj->bounding_volume != NULL) {
+    if (wobj->bounding_volume) {
         colission_free_bounding_volume(wobj->bounding_volume);
     }
 

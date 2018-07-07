@@ -20,7 +20,6 @@ typedef struct vector_t {
 
 vector_t* vector_init(void);
 dumb_opengl_vector_t* dumb_opengl_vector_init(unsigned int size);
-static inline void vector_resize(vector_t* vector, unsigned int new_size);
 void vector_push_back(vector_t* vector, void* item);
 void* vector_get(vector_t* vector, unsigned int index);
 void* vector_pop(vector_t* vector);
