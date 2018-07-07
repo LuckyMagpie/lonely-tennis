@@ -5,6 +5,7 @@ set(TESTS
     "test_mesh"
     "test_files"
     "test_vec_math"
+    "test_linked_list"
 )
 
 foreach(T ${TESTS})
