@@ -6,6 +6,7 @@ set(TESTS
     "test_files"
     "test_vec_math"
     "test_linked_list"
+    "test_enum_hashtable"
 )
 
 foreach(T ${TESTS})
