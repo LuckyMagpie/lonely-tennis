@@ -6,6 +6,7 @@ target_sources(utils
         ${CMAKE_CURRENT_LIST_DIR}/files.c
         ${CMAKE_CURRENT_LIST_DIR}/vec_math.c
         ${CMAKE_CURRENT_LIST_DIR}/linked_list.c
+        ${CMAKE_CURRENT_LIST_DIR}/enum_hashtable.c
 )
 target_include_directories(utils PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 target_compile_options(utils
