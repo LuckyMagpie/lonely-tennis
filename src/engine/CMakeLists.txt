@@ -6,7 +6,7 @@ target_sources(engine
         ${CMAKE_CURRENT_LIST_DIR}/render.c
         ${CMAKE_CURRENT_LIST_DIR}/world.c
         ${CMAKE_CURRENT_LIST_DIR}/colission.c
-        ${CMAKE_CURRENT_LIST_DIR}/executor.c
+        ${CMAKE_CURRENT_LIST_DIR}/context.c
 )
 target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR}/src
 )

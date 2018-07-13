@@ -1,6 +1,6 @@
 #include <cglm/cglm.h>
 
-#include "engine/executor.h"
+#include "engine/context.h"
 #include "engine/graphics.h"
 #include "engine/world.h"
 #include "engine/graphics.h"
@@ -11,13 +11,11 @@ int main()
 {
     graphics_t* graphics = game_graphics_init();
     world_t* world = game_world_init();
-    game_callbacks_init();
-    executor_set_current_state(GAME_START);
+    context_t* ctx = context_init(world, graphics);
+    game_callbacks_init(ctx);
 
-    executor_run(world, graphics);
+    context_run(ctx);
 
-    world_free(world);
-    graphics_free(graphics);
-
+    context_free(ctx);
     return 0;
 }

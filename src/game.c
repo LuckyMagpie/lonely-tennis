@@ -2,43 +2,41 @@
 #include <cglm/cglm.h>
 
 #include "ball.h"
-#include "engine/executor.h"
+#include "engine/context.h"
 #include "engine/graphics.h"
 #include "engine/render.h"
 #include "engine/world.h"
 #include "game.h"
 #include "wall.h"
 
-void game_callbacks_init()
+void game_callbacks_init(context_t* ctx)
 {
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
-    executor_set_callback(GAME_START, &game_start_callback);
-    executor_set_callback(IN_GAME, &game_in_game_callback);
+    ctx->current_state = GAME_START;
+    context_set_state_callback(ctx, GAME_START, &game_start_callback);
+    context_set_state_callback(ctx, IN_GAME, &game_in_game_callback);
 }
 
-void game_start_callback(world_t* world, graphics_t* graphics)
+void game_start_callback(context_t* ctx)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_MOUSEBUTTONUP:
             if (event.button.button == SDL_BUTTON_LEFT) {
-                executor_set_current_state(IN_GAME);
+                ctx->current_state = IN_GAME;
             }
             break;
         case SDL_QUIT:
-            executor_set_current_state(QUIT);
+            ctx->current_state = QUIT;
             break;
-        }
-        if (event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT) {
-            executor_set_current_state(IN_GAME);
         }
     }
 
-    render_world(world, graphics);
+    render_world(ctx->world, ctx->graphics);
 }
 
-void game_in_game_callback(world_t* world, graphics_t* graphics)
+void game_in_game_callback(context_t* ctx)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -48,12 +46,13 @@ void game_in_game_callback(world_t* world, graphics_t* graphics)
             }
             break;
         case SDL_QUIT:
-            executor_set_current_state(QUIT);
+            ctx->current_state = QUIT;
+            break;
         }
     }
 
-    world_simulate(world);
-    render_world(world, graphics);
+    world_simulate(ctx->world);
+    render_world(ctx->world, ctx->graphics);
 }
 
 graphics_t* game_graphics_init()
