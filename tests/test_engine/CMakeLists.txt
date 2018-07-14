@@ -3,9 +3,8 @@ find_package(Check REQUIRED)
 set(TESTS
     "test_world"
     "test_colission"
-    "test_executor"
+    "test_context"
 )
-
 
 foreach(T ${TESTS})
     add_executable(${T} ${T}.c)
@@ -23,3 +22,5 @@ foreach(T ${TESTS})
 
     add_test(${T} ${T})
 endforeach()
+
+file(COPY mock_assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
