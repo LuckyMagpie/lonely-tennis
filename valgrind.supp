@@ -1,1 +1,39 @@
+{
+    <opengl>
+    Memcheck:Leak
+    ...
+    obj:/usr/lib/libGL.so*
+    ...
+}
 
+{
+    <SDL>
+    Memcheck:Leak
+    ...
+    obj:/usr/lib/libSDL2*
+    ...
+}
+
+{
+    <X11>
+    Memcheck:Leak
+    ...
+    obj:/usr/lib/libX11.so*
+    ...
+}
+
+{
+    <libdbus>
+    Memcheck:Leak
+    ...
+    obj:/usr/lib/libdbus-1.so*
+    ...
+}
+
+{
+    <dlopen>
+    Memcheck:Leak
+    ...
+    fun:_dl_open
+    ...
+}
