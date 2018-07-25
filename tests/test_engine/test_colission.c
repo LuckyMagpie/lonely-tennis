@@ -82,12 +82,12 @@ START_TEST(test_colission_init_bounding_obb)
     glm_rotate(rotation_matrix, glm_rad(rotate_angle), rotate_axis);
     glm_mat4_pick3(rotation_matrix, mat3_rotation_matrix);
 
-    ck_assert_msg(bounding_volume != NULL, "Failed to init bounding_volume");
-    ck_assert_msg(bounding_volume->data != NULL, "Failed to init bounding_obb");
-    ck_assert_msg(bounding_volume->kind == OBB, "Bounding volume should have OBB kind");
-    ck_assert_msg(array_eq(obb->center, center, 3), "Bounding obb should have 2, 2, 2 center");
-    ck_assert_msg(array_eq(obb->extents, extents, 3), "Bounding obb should have 2, 2, 0 extents");
-    ck_assert_msg(array_eq(obb->rotation_matrix[0], mat3_rotation_matrix[0], 9), "Bounding obb has wrong rotation_matrix");
+    ck_assert_msg(bounding_volume != NULL, "failed to init bounding_volume");
+    ck_assert_msg(bounding_volume->data != NULL, "failed to init bounding_obb");
+    ck_assert_msg(bounding_volume->kind == OBB, "bounding volume should have OBB kind");
+    ck_assert_msg(array_eq(obb->center, center, 3), "bounding obb should have 2, 2, 2 center");
+    ck_assert_msg(array_eq(obb->extents, extents, 3), "bounding obb should have 2, 2, 0 extents");
+    ck_assert_msg(array_eq(obb->rotation_matrix[0], mat3_rotation_matrix[0], 9), "bounding obb has wrong rotation_matrix");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -107,12 +107,12 @@ START_TEST(test_colission_init_bounding_sphere)
     vec3 local_center = { 0.0f, 0.0f, 0.0f };
     float radius = 2.0f;
 
-    ck_assert_msg(bounding_volume != NULL, "Failed to init bounding_volume");
-    ck_assert_msg(bounding_volume->data != NULL, "Failed to init bounding_sphere");
-    ck_assert_msg(bounding_volume->kind == SPHERE, "Bounding volume should have SPHERE kind");
-    ck_assert_msg(array_eq(sphere->center, center, 3), "Bounding sphere should have 2, 2, 2 center");
-    ck_assert_msg(array_eq(sphere->local_center, local_center, 3), "Bounding sphere should have 0, 0, 0 local center");
-    ck_assert_msg(sphere->radius == radius, "Bounding sphere should have 2.0 radius got %f", sphere->radius);
+    ck_assert_msg(bounding_volume != NULL, "failed to init bounding_volume");
+    ck_assert_msg(bounding_volume->data != NULL, "failed to init bounding_sphere");
+    ck_assert_msg(bounding_volume->kind == SPHERE, "bounding volume should have SPHERE kind");
+    ck_assert_msg(array_eq(sphere->center, center, 3), "bounding sphere should have 2, 2, 2 center");
+    ck_assert_msg(array_eq(sphere->local_center, local_center, 3), "bounding sphere should have 0, 0, 0 local center");
+    ck_assert_msg(sphere->radius == radius, "bounding sphere should have 2.0 radius got %f", sphere->radius);
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -131,7 +131,7 @@ START_TEST(test_colission_update_bounding_sphere_center)
     vec3 center = { 2.0f, 2.0f, 2.0f };
     vec3 new_center = { 3.0f, 3.0f, 3.0f };
 
-    ck_assert_msg(array_eq(sphere->center, center, 3), "Bounding sphere should have 2, 2, 2 center");
+    ck_assert_msg(array_eq(sphere->center, center, 3), "bounding sphere should have 2, 2, 2 center");
 
     mat4 new_model_matrix = GLM_MAT4_IDENTITY_INIT;
     vec3 new_translate = { 3.0f, 3.0f, 3.0f };
@@ -141,7 +141,7 @@ START_TEST(test_colission_update_bounding_sphere_center)
 
     colission_update_bounding_sphere_center(sphere, new_model_matrix);
 
-    ck_assert_msg(array_eq(sphere->center, new_center, 3), "Bounding sphere should have 3, 3, 3 center");
+    ck_assert_msg(array_eq(sphere->center, new_center, 3), "bounding sphere should have 3, 3, 3 center");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -162,7 +162,7 @@ START_TEST(test_colission_test_intersection_sphere_sphere_miss)
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere1_scale, sphere1_translate, sphere1_rotate_axis, sphere1_rotate_angle);
     bounding_volume_t* bounding_volume2 = make_bounding_sphere(sphere2_scale, sphere2_translate, sphere2_rotate_axis, sphere2_rotate_angle);
 
-    ck_assert_msg(colission_test_intersection_sphere_sphere(bounding_volume1->data, bounding_volume2->data) == false, "Spheres shouldn't collide");
+    ck_assert_msg(colission_test_intersection_sphere_sphere(bounding_volume1->data, bounding_volume2->data) == false, "spheres shouldn't collide");
 
     colission_free_bounding_volume(bounding_volume1);
     colission_free_bounding_volume(bounding_volume2);
@@ -184,7 +184,7 @@ START_TEST(test_colission_test_intersection_sphere_sphere_collide)
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere1_scale, sphere1_translate, sphere1_rotate_axis, sphere1_rotate_angle);
     bounding_volume_t* bounding_volume2 = make_bounding_sphere(sphere2_scale, sphere2_translate, sphere2_rotate_axis, sphere2_rotate_angle);
 
-    ck_assert_msg(colission_test_intersection_sphere_sphere(bounding_volume1->data, bounding_volume2->data) == true, "Spheres should collide");
+    ck_assert_msg(colission_test_intersection_sphere_sphere(bounding_volume1->data, bounding_volume2->data) == true, "spheres should collide");
 
     colission_free_bounding_volume(bounding_volume1);
     colission_free_bounding_volume(bounding_volume2);
@@ -206,7 +206,7 @@ START_TEST(test_colission_test_intersection_sphere_obb_miss)
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
     bounding_volume_t* bounding_volume2 = make_bounding_obb(obb_scale, obb_translate, obb_rotate_axis, obb_rotate_angle);
 
-    ck_assert_msg(colission_test_intersection_sphere_obb(bounding_volume1->data, bounding_volume2->data) == false, "Sphere and obb shouldn't collide");
+    ck_assert_msg(colission_test_intersection_sphere_obb(bounding_volume1->data, bounding_volume2->data) == false, "sphere and obb shouldn't collide");
 
     colission_free_bounding_volume(bounding_volume1);
     colission_free_bounding_volume(bounding_volume2);
@@ -228,7 +228,7 @@ START_TEST(test_colission_test_intersection_sphere_obb_collide)
     bounding_volume_t* bounding_volume1 = make_bounding_sphere(sphere_scale, sphere_translate, sphere_rotate_axis, sphere_rotate_angle);
     bounding_volume_t* bounding_volume2 = make_bounding_obb(obb_scale, obb_translate, obb_rotate_axis, obb_rotate_angle);
 
-    ck_assert_msg(colission_test_intersection_sphere_obb(bounding_volume1->data, bounding_volume2->data) == true, "Sphere and obb should collide");
+    ck_assert_msg(colission_test_intersection_sphere_obb(bounding_volume1->data, bounding_volume2->data) == true, "sphere and obb should collide");
 
     colission_free_bounding_volume(bounding_volume1);
     colission_free_bounding_volume(bounding_volume2);
@@ -249,7 +249,47 @@ START_TEST(test_colission_query_closest_point_obb)
 
     colission_query_closest_point_obb(bounding_volume->data, point, closest_point);
 
-    ck_assert_msg(array_eq(closest_point, result, 3), "Closest point should be 1, 0.5, 0");
+    ck_assert_msg(array_eq(closest_point, result, 3), "closest point should be 1, 0.5, 0");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
+START_TEST(test_colission_query_closest_point_sphere)
+{
+    vec3 scale = { 1.0f, 1.0f, 1.0f };
+    vec3 translate = { 0.0f, 0.0f, 0.0f };
+    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float rotate_angle = 0.0f;
+    vec3 point = { 0.0f, 5.0f, 0.0f };
+    vec3 closest_point;
+    vec3 result = { 0.0f, 1.0f, 0.0f };
+
+    bounding_volume_t* bounding_volume = make_bounding_sphere(scale, translate, rotate_axis, rotate_angle);
+
+    colission_query_closest_point_sphere(bounding_volume->data, point, closest_point);
+
+    ck_assert_msg(array_eq(closest_point, result, 3), "closest point should be 0, 1.0, 0");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
+START_TEST(test_colission_query_closest_point_sphere_inside)
+{
+    vec3 scale = { 1.0f, 1.0f, 1.0f };
+    vec3 translate = { 0.0f, 0.0f, 0.0f };
+    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float rotate_angle = 0.0f;
+    vec3 point = { 0.5f, 0.5f, 0.5f };
+    vec3 closest_point;
+    vec3 result = { 0.5f, 0.5f, 0.5f };
+
+    bounding_volume_t* bounding_volume = make_bounding_sphere(scale, translate, rotate_axis, rotate_angle);
+
+    colission_query_closest_point_sphere(bounding_volume->data, point, closest_point);
+
+    ck_assert_msg(array_eq(closest_point, result, 3), "closest point should be 0.5, 0.5, 0.5, inside sphere");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -266,7 +306,7 @@ START_TEST(test_colission_test_intersection_ray_sphere_intersects)
     vec3 point = { 0.0f, 0.0f, 0.0f };
     vec3 direction = { 0.0f, 0.0f, 1.0f };
 
-    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "Ray should intersect sphere");
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "ray should intersect sphere");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -283,7 +323,7 @@ START_TEST(test_colission_test_intersection_ray_sphere_tangent)
     vec3 point = { 1.0f, 0.0f, 0.0f };
     vec3 direction = { 0.0f, 0.0f, 1.0f };
 
-    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "Tangent ray should intersect sphere");
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "tangent ray should intersect sphere");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -300,7 +340,7 @@ START_TEST(test_colission_test_intersection_ray_sphere_inside)
     vec3 point = { 0.0f, 0.0f, 0.0f };
     vec3 direction = { 0.0f, 0.0f, 1.0f };
 
-    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "Ray starting inside of sphere should intersect");
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == true, "ray starting inside of sphere should intersect");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -317,7 +357,7 @@ START_TEST(test_colission_test_intersection_ray_sphere_miss)
     vec3 point = { 0.0f, 0.0f, 0.0f };
     vec3 direction = { 0.0f, 0.0f, -1.0f };
 
-    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == false, "Ray should miss sphere");
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == false, "ray should miss sphere");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -334,7 +374,7 @@ START_TEST(test_colission_test_intersection_ray_sphere_false_intersection)
     vec3 point = { 0.0f, 0.0f, 2.0f };
     vec3 direction = { 0.0f, 0.0f, 1.0f };
 
-    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == false, "Ray starting outside of sphere and pointing away should miss");
+    ck_assert_msg(colission_test_intersection_ray_sphere(point, direction, bounding_volume->data) == false, "ray starting outside of sphere and pointing away should miss");
 
     colission_free_bounding_volume(bounding_volume);
 }
@@ -362,12 +402,17 @@ Suite* colission_suite()
     TCase* tc5 = tcase_create("test_colission_query_closest_point_obb");
     tcase_add_test(tc5, test_colission_query_closest_point_obb);
 
-    TCase* tc6 = tcase_create("test_colission_test_intersection_ray_sphere");
-    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_intersects);
-    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_tangent);
-    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_inside);
-    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_miss);
-    tcase_add_test(tc6, test_colission_test_intersection_ray_sphere_false_intersection);
+    TCase* tc6 = tcase_create("test_colission_query_closest_point_sphere");
+    tcase_add_test(tc6, test_colission_query_closest_point_sphere);
+    tcase_add_test(tc6, test_colission_query_closest_point_sphere_inside);
+
+    TCase* tc7 = tcase_create("test_colission_test_intersection_ray_sphere");
+    tcase_add_test(tc7, test_colission_test_intersection_ray_sphere_intersects);
+    tcase_add_test(tc7, test_colission_test_intersection_ray_sphere_tangent);
+    tcase_add_test(tc7, test_colission_test_intersection_ray_sphere_inside);
+    tcase_add_test(tc7, test_colission_test_intersection_ray_sphere_miss);
+    tcase_add_test(tc7, test_colission_test_intersection_ray_sphere_false_intersection);
+
 
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
@@ -375,6 +420,7 @@ Suite* colission_suite()
     suite_add_tcase(suite, tc4);
     suite_add_tcase(suite, tc5);
     suite_add_tcase(suite, tc6);
+    suite_add_tcase(suite, tc7);
     return suite;
 }
 
