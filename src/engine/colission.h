@@ -33,6 +33,7 @@ bounding_volume_t* colission_init_bounding_obb(dumb_opengl_vector_t* vertices, m
 bounding_volume_t* colission_init_bounding_sphere(dumb_opengl_vector_t* vertices, mat4 model_matrix, vec3 scale);
 void colission_update_bounding_sphere_center(bounding_sphere_t* sphere, mat4 model_matrix);
 void colission_query_closest_point_obb(bounding_obb_t* obb, vec3 point, vec3 result);
+void colission_query_closest_point_sphere(bounding_sphere_t* sphere, vec3 point, vec3 result);
 bool colission_test_intersection_sphere_sphere(bounding_sphere_t* sphere, bounding_sphere_t* sphere2);
 bool colission_test_intersection_sphere_obb(bounding_sphere_t* sphere, bounding_obb_t* obb);
 bool colission_test_intersection_ray_sphere(vec3 point, vec3 direction, bounding_sphere_t* sphere);

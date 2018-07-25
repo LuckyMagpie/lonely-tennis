@@ -142,6 +142,20 @@ bool colission_test_raycasting(vec3 point, vec3 direction, bounding_volume_t* vi
     }
 }
 
+void colission_query_closest_point_sphere(bounding_sphere_t* sphere, vec3 point, vec3 result)
+{
+    vec3 distance;
+    glm_vec_sub(point, sphere->center, distance);
+
+    if (glm_vec_dot(distance, distance) <= sphere->radius * sphere->radius) {
+        glm_vec_copy(point, result);
+    } else {
+        vec3 normal;
+        glm_vec_normalize_to(distance, normal);
+        glm_vec_scale(normal, sphere->radius, result);
+    }
+}
+
 void colission_query_closest_point_obb(bounding_obb_t* obb, vec3 point, vec3 result)
 {
     vec3 distance;
