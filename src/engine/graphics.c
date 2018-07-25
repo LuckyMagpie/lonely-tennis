@@ -121,6 +121,7 @@ graphics_t* graphics_init(char* window_title, int window_width, int window_heigh
     graphics_t* graphics = malloc(sizeof(graphics_t));
     graphics->window = window;
     graphics->context = context;
+    glm_vec_copy(camera_position, graphics->camera_position);
 
     vec3 up = { 0.0f, 1.0f, 0.0f };
     glm_lookat(camera_position, camera_target, up, graphics->view);

@@ -12,6 +12,7 @@ typedef struct graphics_t {
     mat4 projection;
     mat4 view;
     mat4 vp;
+    vec3 camera_position;
     SDL_Window* window;
     SDL_GLContext* context;
     GLuint program_id;
