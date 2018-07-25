@@ -255,6 +255,26 @@ START_TEST(test_colission_query_closest_point_obb)
 }
 END_TEST
 
+START_TEST(test_colission_query_closest_point_obb_inside)
+{
+    vec3 scale = { 1.0f, 1.0f, 1.0f };
+    vec3 translate = { 0.0f, 0.0f, 0.0f };
+    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float rotate_angle = 0.0f;
+    vec3 point = { 0.5f, 0.5f, 0.0f };
+    vec3 closest_point;
+    vec3 result = { 0.5f, 0.5f, 0.0f };
+
+    bounding_volume_t* bounding_volume = make_bounding_obb(scale, translate, rotate_axis, rotate_angle);
+
+    colission_query_closest_point_obb(bounding_volume->data, point, closest_point);
+
+    ck_assert_msg(array_eq(closest_point, result, 3), "closest point should be 0.5, 0.5, 0, inside of obb");
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
 START_TEST(test_colission_query_closest_point_sphere)
 {
     vec3 scale = { 1.0f, 1.0f, 1.0f };
@@ -401,6 +421,7 @@ Suite* colission_suite()
 
     TCase* tc5 = tcase_create("test_colission_query_closest_point_obb");
     tcase_add_test(tc5, test_colission_query_closest_point_obb);
+    tcase_add_test(tc5, test_colission_query_closest_point_obb_inside);
 
     TCase* tc6 = tcase_create("test_colission_query_closest_point_sphere");
     tcase_add_test(tc6, test_colission_query_closest_point_sphere);
