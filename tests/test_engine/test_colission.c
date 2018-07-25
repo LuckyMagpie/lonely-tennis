@@ -315,6 +315,40 @@ START_TEST(test_colission_query_closest_point_sphere_inside)
 }
 END_TEST
 
+START_TEST(test_colission_query_distance2_bounding_volume_obb)
+{
+    vec3 scale = { 1.0f, 1.0f, 1.0f };
+    vec3 translate = { 0.0f, 0.0f, 0.0f };
+    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float rotate_angle = 0.0f;
+    vec3 point = { 0.0f, 10.0f, 0.0f };
+
+    bounding_volume_t* bounding_volume = make_bounding_obb(scale, translate, rotate_axis, rotate_angle);
+    float distance = colission_query_distance2_bounding_volume(point, bounding_volume);
+
+    ck_assert_msg(distance == 81.0f, "squared distance from point to obb should be 81.0 got %f", distance);
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
+START_TEST(test_colission_query_distance2_bounding_volume_sphere)
+{
+    vec3 scale = { 1.0f, 1.0f, 1.0f };
+    vec3 translate = { 0.0f, 0.0f, 0.0f };
+    vec3 rotate_axis = { 0.0f, 0.0f, 0.0f };
+    float rotate_angle = 0.0f;
+    vec3 point = { 0.0f, 10.0f, 0.0f };
+
+    bounding_volume_t* bounding_volume = make_bounding_sphere(scale, translate, rotate_axis, rotate_angle);
+    float distance = colission_query_distance2_bounding_volume(point, bounding_volume);
+
+    ck_assert_msg(distance == 81.0f, "squared distance from point to sphere should be 81.0 got %f", distance);
+
+    colission_free_bounding_volume(bounding_volume);
+}
+END_TEST
+
 START_TEST(test_colission_test_intersection_ray_sphere_intersects)
 {
     vec3 sphere_scale = { 1.0f, 1.0f, 1.0f };
@@ -434,6 +468,9 @@ Suite* colission_suite()
     tcase_add_test(tc7, test_colission_test_intersection_ray_sphere_miss);
     tcase_add_test(tc7, test_colission_test_intersection_ray_sphere_false_intersection);
 
+    TCase* tc8 = tcase_create("test_colission_query_distance2_bounding_volume");
+    tcase_add_test(tc8, test_colission_query_distance2_bounding_volume_obb);
+    tcase_add_test(tc8, test_colission_query_distance2_bounding_volume_sphere);
 
     suite_add_tcase(suite, tc1);
     suite_add_tcase(suite, tc2);
@@ -442,6 +479,7 @@ Suite* colission_suite()
     suite_add_tcase(suite, tc5);
     suite_add_tcase(suite, tc6);
     suite_add_tcase(suite, tc7);
+    suite_add_tcase(suite, tc8);
     return suite;
 }
 
