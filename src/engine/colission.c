@@ -118,6 +118,22 @@ bool colission_test_intersection_ray_sphere(vec3 point, vec3 direction, bounding
     return true;
 }
 
+float colission_query_distance2_bounding_volume(vec3 point, bounding_volume_t* bounding_volume)
+{
+    switch (bounding_volume->kind) {
+    case SPHERE:;
+        vec3 closest_point_sphere;
+        colission_query_closest_point_sphere(bounding_volume->data, point, closest_point_sphere);
+        return glm_vec_distance2(point, closest_point_sphere);
+    case OBB:;
+        vec3 closest_point_obb;
+        colission_query_closest_point_obb(bounding_volume->data, point, closest_point_obb);
+        return glm_vec_distance2(point, closest_point_obb);
+    default:
+        return 0.0f;
+    }
+}
+
 bool colission_test_intersection_bounding_volume(bounding_volume_t* perp, bounding_volume_t* victim)
 {
     switch (perp->kind) {
