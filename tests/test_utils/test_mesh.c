@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include "cmp_helpers.h"
 #include "mesh.h"
 #include "vector.h"
 
@@ -15,17 +16,6 @@ float uv1[2] = { 0.0f, 1.0f };
 float uv2[2] = { 0.0f, 0.0f };
 float uv3[2] = { 1.0f, 1.0f };
 float n0[3] = { 0.0f, 1.0f, 0.0f };
-
-bool array_eq(float* arr1, float* arr2, int size)
-{
-    for (int i = 0; i < size; i++) {
-        if (arr1[i] != arr2[i]) {
-            return false;
-        }
-    }
-
-    return true;
-}
 
 START_TEST(test_load_obj)
 {

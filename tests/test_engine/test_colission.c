@@ -3,67 +3,10 @@
 #include <cglm/cglm.h>
 #include <check.h>
 
+#include "cmp_helpers.h"
 #include "engine/colission.h"
+#include "fixtures.h"
 #include "utils/vector.h"
-
-bool array_eq(float* arr1, float* arr2, int size)
-{
-    for (int i = 0; i < size; i++) {
-        if (arr1[i] != arr2[i]) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-void make_flat_square(dumb_opengl_vector_t* vertices)
-{
-    vertices->items[0] = 1.0f;
-    vertices->items[1] = -1.0f;
-    vertices->items[2] = 0.0f;
-    vertices->items[3] = -1.0f;
-    vertices->items[4] = -1.0f;
-    vertices->items[5] = 0.0f;
-    vertices->items[6] = -1.0f;
-    vertices->items[7] = 1.0f;
-    vertices->items[8] = 0.0f;
-    vertices->items[9] = 1.0f;
-    vertices->items[10] = 1.0f;
-    vertices->items[11] = 0.0f;
-}
-
-bounding_volume_t* make_bounding_sphere(vec3 scale, vec3 translate, vec3 rotate_axis, float rotate_angle)
-{
-    dumb_opengl_vector_t* vertices = dumb_opengl_vector_init(12);
-    mat4 model_matrix = GLM_MAT4_IDENTITY_INIT;
-
-    make_flat_square(vertices);
-    glm_translate(model_matrix, translate);
-    glm_rotate(model_matrix, glm_rad(rotate_angle), rotate_axis);
-    glm_scale(model_matrix, scale);
-
-    bounding_volume_t* bounding_volume = colission_init_bounding_sphere(vertices, model_matrix, scale);
-
-    free(vertices);
-    return bounding_volume;
-}
-
-bounding_volume_t* make_bounding_obb(vec3 scale, vec3 translate, vec3 rotate_axis, float rotate_angle)
-{
-    dumb_opengl_vector_t* vertices = dumb_opengl_vector_init(12);
-    mat4 model_matrix = GLM_MAT4_IDENTITY_INIT;
-
-    make_flat_square(vertices);
-    glm_translate(model_matrix, translate);
-    glm_rotate(model_matrix, glm_rad(rotate_angle), rotate_axis);
-    glm_scale(model_matrix, scale);
-
-    bounding_volume_t* bounding_volume = colission_init_bounding_obb(vertices, model_matrix, scale, rotate_axis, rotate_angle);
-
-    free(vertices);
-    return bounding_volume;
-}
 
 START_TEST(test_colission_init_bounding_obb)
 {

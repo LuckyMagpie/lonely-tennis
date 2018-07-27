@@ -1,4 +1,3 @@
-#include <math.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <unistd.h>
@@ -6,19 +5,9 @@
 #include <cglm/cglm.h>
 #include <check.h>
 
+#include "cmp_helpers.h"
 #include "engine/world.h"
 #include "utils/vector.h"
-
-bool model_matrix_eq(float* model_matrix1, float* model_matrix2)
-{
-    for (int i = 0; i < 8; i++) {
-        if (!(fabs(model_matrix1[i] - model_matrix2[i]) <= 0.0001)) {
-            return false;
-        }
-    }
-
-    return true;
-}
 
 START_TEST(test_world_init)
 {

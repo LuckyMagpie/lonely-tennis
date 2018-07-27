@@ -7,7 +7,7 @@ set(TESTS
 )
 
 foreach(T ${TESTS})
-    add_executable(${T} ${T}.c)
+    add_executable(${T} ${T}.c ${PROJECT_SOURCE_DIR}/tests/cmp_helpers.c ${PROJECT_SOURCE_DIR}/tests/fixtures.c)
     add_dependencies(${T} utils engine)
     target_compile_options(${T}
         PUBLIC
@@ -17,6 +17,7 @@ foreach(T ${TESTS})
         PUBLIC
             ${CHECK_INCLUDE_DIRS}
             ${PROJECT_SOURCE_DIR}/src
+            ${PROJECT_SOURCE_DIR}/tests
     )
     target_link_libraries(${T} $<TARGET_FILE:engine> $<TARGET_FILE:utils> ${CHECK_LIBRARIES} m GL GLEW SDL2 SDL2_image)
 

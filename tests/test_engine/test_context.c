@@ -1,24 +1,12 @@
 #include <check.h>
 
 #include "engine/context.h"
-#include "utils/enum_hashtable.h"
-#include "engine/world.h"
 #include "engine/graphics.h"
+#include "engine/world.h"
+#include "fixtures.h"
+#include "utils/enum_hashtable.h"
 
 static int counter = 0;
-
-static graphics_t* graphics_test_init()
-{
-    char* window_title = "Test";
-    int window_width = 1;
-    int window_height = 1;
-    vec3 camera_position = { 0.0f, 0.0f, 0.0f };
-    vec3 camera_target = { 0.0f, 0.0f, 0.0f };
-    char* vertex_filepath = "mock_assets/vertex_shader.glsl";
-    char* fragment_filepath = "mock_assets/fragment_shader.glsl";
-
-    return graphics_init(window_title, window_width, window_height, camera_position, camera_target, vertex_filepath, fragment_filepath);
-}
 
 void in_start_menu_cb(context_t* ctx)
 {
@@ -53,7 +41,7 @@ void game_over_cb(context_t* ctx)
 START_TEST(test_context_init)
 {
     world_t* world = world_init();
-    graphics_t* graphics =  graphics_test_init();
+    graphics_t* graphics = graphics_test_init();
 
     context_t* ctx = context_init(world, graphics);
 
@@ -77,7 +65,7 @@ static void callback(context_t* ctx)
 START_TEST(test_context_set_state_callback)
 {
     world_t* world = world_init();
-    graphics_t* graphics =  graphics_test_init();
+    graphics_t* graphics = graphics_test_init();
 
     context_t* ctx = context_init(world, graphics);
 
@@ -94,7 +82,7 @@ END_TEST
 START_TEST(test_context_run)
 {
     world_t* world = world_init();
-    graphics_t* graphics =  graphics_test_init();
+    graphics_t* graphics = graphics_test_init();
 
     context_t* ctx = context_init(world, graphics);
 

@@ -91,7 +91,6 @@ START_TEST(test_enum_hastable_get)
     enum_hashtable_value_t* hashtable_value_get1 = enum_hashtable_get(hashtable, TAG1);
     enum_hashtable_value_t* hashtable_value_get2 = enum_hashtable_get(hashtable, TAG2);
 
-
     ck_assert_msg(hashtable_value1 == hashtable_value_get1, "expected hashtable_value1 to the same as hashtable_value_get1");
     ck_assert_msg(hashtable_value2 == hashtable_value_get2, "expected hashtable_value2 to the same as hashtable_value_get2");
 
