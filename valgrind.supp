@@ -37,3 +37,19 @@
     fun:_dl_open
     ...
 }
+
+{
+    <drivers>
+    Memcheck:Cond
+    ...
+    obj:/usr/lib/xorg/modules/drivers/*
+    ...
+}
+
+{
+    <drivers8>
+    Memcheck:Value8
+    ...
+    obj:/usr/lib/xorg/modules/drivers/*
+    ...
+}
