@@ -2,10 +2,12 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include <SDL2/SDL.h>
 #include <cglm/cglm.h>
 
 #include "ball.h"
 #include "engine/colission.h"
+#include "engine/context.h"
 #include "engine/render.h"
 #include "engine/world.h"
 #include "utils/mesh.h"
@@ -41,6 +43,16 @@ world_object_t* ball_init(vec3 scale, float rotate_angle, vec3 rotate_axis, vec3
     ball->fn_resolve_colission = NULL;
 
     return ball;
+}
+
+void ball_click_listener(void* target, SDL_Event event, context_t* ctx)
+{
+    (void)event;
+    ctx->current_state = IN_GAME;
+    ((world_object_t*)target)->velocity[1] = 0;
+    ((world_object_t*)target)->velocity[2] = 0;
+    vec3 push = { 0.0f, 100.0f, -1200.0f };
+    world_object_add_force(target, push);
 }
 
 void ball_simulate(world_object_t* ball, double delta_time, vector_t* colission_victims)
