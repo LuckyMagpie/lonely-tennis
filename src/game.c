@@ -9,48 +9,32 @@
 #include "game.h"
 #include "wall.h"
 
+static void game_quit_listener(void* target, SDL_Event event, context_t* ctx)
+{
+    (void)target;
+    (void)event;
+    ctx->current_state = QUIT;
+}
+
 void game_callbacks_init(context_t* ctx)
 {
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
     ctx->current_state = GAME_START;
     context_set_state_callback(ctx, GAME_START, &game_start_callback);
     context_set_state_callback(ctx, IN_GAME, &game_in_game_callback);
+
+    context_event_store_add_listener(ctx, SDL_QUIT, NULL, &game_quit_listener);
 }
 
 void game_start_callback(context_t* ctx)
 {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        case SDL_MOUSEBUTTONUP:
-            if (event.button.button == SDL_BUTTON_LEFT) {
-                ctx->current_state = IN_GAME;
-            }
-            break;
-        case SDL_QUIT:
-            ctx->current_state = QUIT;
-            break;
-        }
-    }
-
+    context_events_listen(ctx);
     render_world(ctx->world, ctx->graphics);
 }
 
 void game_in_game_callback(context_t* ctx)
 {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        case SDL_MOUSEBUTTONUP:
-            if (event.button.button == SDL_BUTTON_LEFT) {
-            }
-            break;
-        case SDL_QUIT:
-            ctx->current_state = QUIT;
-            break;
-        }
-    }
-
+    context_events_listen(ctx);
     world_simulate(ctx->world);
     render_world(ctx->world, ctx->graphics);
 }
@@ -68,11 +52,8 @@ graphics_t* game_graphics_init()
     return graphics_init(window_title, window_width, window_height, camera_position, camera_target, vertex_filepath, fragment_filepath);
 }
 
-world_t* game_world_init()
+void game_world_objects_init(context_t* ctx)
 {
-    world_t* world = world_init();
-    world->simulation_speed = 500.0f;
-
     vec3 scale_ball = { 1.0f, 1.0f, 1.0f };
     float rotate_angle_ball = 0.0f;
     vec3 rotate_axis_ball = { 0.0f, 0.0f, 0.0f };
@@ -97,12 +78,21 @@ world_t* game_world_init()
     world_object_t* wall = wall_init(scale_wall, rotate_angle_wall, rotate_axis_wall, translate_wall);
     world_object_t* wall2 = wall_init(scale_wall2, rotate_angle_wall2, rotate_axis_wall2, translate_wall2);
     world_object_t* wall3 = wall_init(scale_wall3, rotate_angle_wall3, rotate_axis_wall3, translate_wall3);
+
     world_object_t* ball = ball_init(scale_ball, rotate_angle_ball, rotate_axis_ball, translate_ball, velocity);
 
-    vector_push_back(world->world_objects, ball);
-    vector_push_back(world->world_objects, wall);
-    vector_push_back(world->world_objects, wall2);
-    vector_push_back(world->world_objects, wall3);
+    vector_push_back(ctx->world->world_objects, ball);
+    vector_push_back(ctx->world->world_objects, wall);
+    vector_push_back(ctx->world->world_objects, wall2);
+    vector_push_back(ctx->world->world_objects, wall3);
+
+    context_event_store_add_listener(ctx, SDL_MOUSEBUTTONUP, ball, &ball_click_listener);
+}
+
+world_t* game_world_init()
+{
+    world_t* world = world_init();
+    world->simulation_speed = 500.0f;
 
     return world;
 }
